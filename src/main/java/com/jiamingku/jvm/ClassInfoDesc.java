@@ -12,6 +12,7 @@ public class ClassInfoDesc {
     private String string;
 
 
+
     public boolean isaBoolean() {
         return aBoolean;
     }
