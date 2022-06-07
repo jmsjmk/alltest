@@ -1,0 +1,19 @@
+[类加载器的作用就是产生Class对象, 类java同时获取资源文件也是非常有用的, 本质上面是一个东西.ucp里面去找]
+-----
+1.java如何确定一个类[同一个java类加载器,同一个class文件]
+2.java.lang.ClassLoader.findLoadedClass方法会查询所有加载的类,各种加载器中的类都会查(这就是所谓的缓存了)
+  URLClassPath(里面包含jar包的各种)
+3.class-load过程
+  loadClass--->findClass--->defineClass
+  一般自定义时候:
+  1)不重写loadClass-容易破坏双亲委派
+  2)也不重写findClass-降低加载类的难度系数
+  3)所以最好直接继承urlClassloader（只是增加查询路径等)
+
+4.class.newInstance()时候跟类加载器是有关系的
+5.自定义加载器,创建时候调用的父类加载器就是SystemClassLoader,在构造器方法中指定
+
+------------
+
+6.https://blog.csdn.net/yellowFARF/article/details/105448321 ---并行加载.
+

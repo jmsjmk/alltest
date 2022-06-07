@@ -1,0 +1,11 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "文档搜索器-API",
+    "version" : "v1",
+    "title" : "文档搜索器"
+  },
+  "host" : "localhost:8080",
+  "basePath" : "/doc-searcher-web",
+  "schemes" : [ "http" ]
+}

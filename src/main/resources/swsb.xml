@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                        http://www.springframework.org/schema/beans/spring-beans.xsd
+                        http://www.springframework.org/schema/context
+                        http://www.springframework.org/schema/context/spring-context.xsd
+                        http://www.springframework.org/schema/aop
+                        http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <!-- 在默认情况下，如果是目标对象实现了接口的类，采用的JDK动态代理，如果没有则创建一个CGLIB代理 -->
+    <!--  proxy-target-class="true" cglib-->
+    <!--  proxy-target-class="false" jdk proxy-->
+    <!--  什么都不写 jdk proxy,但是没有实现的接口呢,就会使用cglib生成-->
+    <!-- 如果没有实现接口，什么都不写,或者true,false 你随便写这时候都是用cglib生成-->
+    <aop:aspectj-autoproxy/>
+    <!--    <aop:aspectj-autoproxy proxy-target-class="false" expose-proxy="true"/>-->
+    <!--
+    Cannot find current proxy: Set 'exposeProxy' property on Advised to 'true' to make it available.
+    -->
+    <aop:aspectj-autoproxy proxy-target-class="false"/>
+
+    <bean id="videoTestService" class="com.framework.spring.aop.shiwushibai.VideoTestServiceImpl"/>
+    <bean id="videoTestService2" class="com.framework.spring.aop.shiwushibai.VideoTestService2"/>
+
+    <!-- Spring扫描目录，通过注解的方式注入bean，只扫描本工程的目录 -->
+    <!--<context:component-scan base-package="com.framework.spring.aop.aop1, com.framework.spring.aop.aop2,-->
+    <!--com.framework.spring.aop.aop3">-->
+    <context:component-scan base-package="com.framework.spring.aop.shiwushibai">
+        <!-- base-package如果多个，用“,”分隔 -->
+        <context:include-filter type="annotation" expression="org.aspectj.lang.annotation.Aspect"/>
+    </context:component-scan>
+</beans>

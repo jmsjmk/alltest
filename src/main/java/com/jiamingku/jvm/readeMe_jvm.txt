@@ -1,0 +1,25 @@
+[博客系列]
+https://www.zhihu.com/question/33210180/answer/56348818
+https://www.iteye.com/blog/rednaxelafx-1108768
+https://www.zhihu.com/question/33210180
+https://www.zhihu.com/question/41922036/answer/93079526
+https://www.zhihu.com/question/53613423
+https://blog.csdn.net/weixin_34353714/article/details/85862804
+https://hllvm-group.iteye.com/group/topic/38223#post-248757(并发垃圾收集器（CMS）为什么没有采用标记整理-算法来实现，而是采用的标记-清除算法？)
+
+
+[Full GC (Ergonomics)
+https://blog.csdn.net/weixin_43194122/article/details/91526740
+
+===================GC-Log===================
+[GC [PSYoungGen: 10240K->822K(89600K)] 10240K->830K(294400K), 0.0012960 secs] [Times: user=0.01 sys=0.00, real=0.00 secs]
+[Full GC [PSYoungGen: 822K->0K(89600K)] [ParOldGen: 8K->687K(204800K)] 830K->687K(294400K) [PSPermGen: 2891K->2890K(21504K)], 0.0097600 secs] [Times: user=0.04 sys=0.00, real=0.01 secs]
+
+[跟垃圾收集器的名字相关]
+[DefNew      ——————————————代表使用serial收集器中新生代的名字（defual new generation）
+[ParNew      ——————————————代表使用ParNew收集器中新生代的名字（parallell new generation）
+[PSYoungGen  ——————————————代表使用serial收集器中新生代的名字（Parallel Scavenge）
+
+PSYoungGen: 10240K->822K(89600K)][GC前该内存区域已使用的容量->GC后该内存使用的容量(该内存的总容量)]
+ 方括号外：10240K->830K(294400K)表示GC前java堆使用的容量->GC后java堆已使用容量（java总容量）
+

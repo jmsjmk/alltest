@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ROOT>
+  <ServiceDefineImpl name="test" deployModel="STANDALONE">
+    <upChainList>
+      <com.cheyipai.servitization.metadata.define.session.impl.SessionDefineImpl name="sessionServiceChainHandler" handlerClazz="com.cheyipai.servitization.session.chain.SessionServiceChainHandler">
+        <strategyMap>
+          <entry key="/noyan" value="com.cheyipai.servitization.session.strategy.impl.HttpCheckStrategy" type="Http" url="sdfsdfsdfsdf" method="POST" vldparam=""/>
+          <entry key="/sdf" value="com.cheyipai.servitization.session.strategy.impl.HttpCheckStrategy" type="Http" url="www.baidu.com" method="POST" vldparam="{&quot;head&quot;:&quot;memberCode,BusinessID,OnlineID &quot;,&quot;reqparam&quot;:&quot;req1,req2&quot;}"/>
+          <entry key="/test" value="com.cheyipai.servitization.session.strategy.impl.HttpCheckStrategy" type="Http" url="dsfsdfsdf" method="POST" vldparam="{&quot;head&quot;:&quot;membercode&quot;,&quot;reqparam&quot;:&quot;dsd&quot;}"/>
+        </strategyMap>
+      </com.cheyipai.servitization.metadata.define.session.impl.SessionDefineImpl>
+      <com.cheyipai.servitization.metadata.define.embedder.impl.ChainHandlerDefineImpl name="RequestServiceChainHandler" handlerClazz="com.cheyipai.servitization.request.chain.RequestServiceChainHandler"/>
+    </upChainList>
+    <downChainList>
+      <com.cheyipai.servitization.metadata.define.embedder.impl.ChainHandlerDefineImpl name="errorChainHandler" handlerClazz="com.cheyipai.servitization.error.ErrorChainHandler"/>
+      <com.cheyipai.servitization.metadata.define.embedder.impl.ChainHandlerDefineImpl name="compressChainHandler" handlerClazz="com.cheyipai.servitization.compress.CompressChainHandler"/>
+    </downChainList>
+  </ServiceDefineImpl>
+</ROOT>

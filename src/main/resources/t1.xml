@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                        http://www.springframework.org/schema/beans/spring-beans.xsd
+                        http://www.springframework.org/schema/context
+                        http://www.springframework.org/schema/context/spring-context.xsd
+                        http://www.springframework.org/schema/aop
+                        http://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <!-- 在默认情况下，如果是目标对象实现了接口的类，采用的JDK动态代理，如果没有则创建一个CGLIB代理 -->
+    <!--  proxy-target-class="true" cglib-->
+    <!--  proxy-target-class="false" jdk proxy-->
+    <!--  什么都不写 jdk proxy-->
+    <!-- 如果没有实现接口，什么都不写,或者true,false 你随便写这时候都是用cglib生成-->
+    <aop:aspectj-autoproxy proxy-target-class="false"/>
+
+    <context:component-scan base-package="com.framework.spring.transaction.service"/>
+    <bean id="oasMysqlDataSource" class="com.alibaba.druid.pool.DruidDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="removeAbandoned" value="true"/>
+        <property name="logAbandoned" value="true"/>
+        <property name="initialSize" value="1"/>
+        <property name="minIdle" value="2"/>
+        <property name="maxActive" value="50"/>
+        <!--<property name="removeAbandonedTimeout" value="${oas.druid.timeBetweenEvictionRunsMillis}" />-->
+        <!--<property name="maxWait" value="${oas.druid.maxWait}"/>-->
+        <!--<property name="timeBetweenEvictionRunsMillis" value="${oas.druid.jdbc.timeBetweenEvictionRunsMillis}" />-->
+        <!--<property name="minEvictableIdleTimeMillis" value="${oas.druid.maxIdleTime}" />-->
+        <!--<property name="testWhileIdle" value="${oas.druid.testWhileIdle}" />-->
+        <!--<property name="testOnBorrow" value="${oas.druid.testOnBorrow}" />-->
+        <!--<property name="testOnReturn" value="${oas.druid.testOnReturn}" />-->
+        <!--<property name="poolPreparedStatements" value="${oas.druid.poolPreparedStatements}"/>-->
+        <!--<property name="filters" value="${oas.druid.filters}"/>-->
+        <property name="url"
+                  value="jdbc:mysql://mysql-m-wr-car-all-dev-new-db.01zhuanche.com:3307/sq_payment?autoReconnect=true&amp;useUnicode=true&amp;zeroDateTimeBehavior=convertToNull&amp;characterEncoding=UTF-8&amp;connectTimeout=1000&amp;socketTimeout=15000"/>
+        <property name="username" value="dev_sqhc_rentcar"/>
+        <property name="password" value="dev_BzkmQM%O^U7Dy8X3"/>
+    </bean>
+
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="oasMysqlDataSource"/>
+    </bean>
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="oasMysqlDataSource"/>
+        <property name="mapperLocations" value="classpath:mapper/**/*.xml"/>
+        <property name="configLocation" value="classpath:mybatis-config.xml"></property>
+    </bean>
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.framework.spring.transaction.t1"/>
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+    </bean>
+</beans>

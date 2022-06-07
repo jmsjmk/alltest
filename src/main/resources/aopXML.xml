@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                        http://www.springframework.org/schema/beans/spring-beans.xsd
+                        http://www.springframework.org/schema/context
+                        http://www.springframework.org/schema/context/spring-context.xsd
+                        http://www.springframework.org/schema/aop
+                        http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <!-- 在默认情况下，如果是目标对象实现了接口的类，采用的JDK动态代理，如果没有则创建一个CGLIB代理 -->
+    <!--  proxy-target-class="true" cglib-->
+    <!--  proxy-target-class="false" jdk proxy-->
+    <!--  什么都不写 jdk proxy-->
+    <!-- 如果没有实现接口，什么都不写,或者true,false 你随便写这时候都是用cglib生成-->
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
+    <context:component-scan base-package="com.framework.spring.aop.aop3">
+        <!-- base-package如果多个，用“,”分隔 -->
+        <context:include-filter type="annotation" expression="org.aspectj.lang.annotation.Aspect"/>
+    </context:component-scan>
+
+    <!--
+        1.2021-粗暴的理解，切面就是一个类，  在某些切入点要插入一些代码，这些代码就是切面里面的方法。
+
+        2.顺序从小到达的先后执行.
+    -->
+    <!-- 切面的实现类-->
+    <bean id="four" class="com.framework.spring.aop.aop3.FourAdiviceXMLTest"/>
+    <bean id="second" class="com.framework.spring.aop.aop3.SecondAdviceTest"/>
+    <aop:config>
+
+        <!--        <aop:aspect id="fourAspect" ref="four" order="2">-->
+        <!--            &lt;!&ndash;<aop:after method="release" pointcut="execution(* com.framework.spring.aop.aop1.*.*(..))"/>&ndash;&gt;-->
+        <!--            &lt;!&ndash; 关联到FourAdiviceXMLTest这个切面上&ndash;&gt;-->
+        <!--            <aop:before method="authority" pointcut="execution(* com.framework.spring.aop.aop1.*.*(..))"/>-->
+        <!--            &lt;!&ndash;<aop:after-returning method="log" pointcut="execution(* com.framework.spring.aop.aop1.*.*(..))" returning="rvt"/>&ndash;&gt;-->
+        <!--            &lt;!&ndash;<aop:around method="processTx" pointcut="execution(* com.framework.spring.aop.aop1.*.*(..))"/>&ndash;&gt;-->
+        <!--        </aop:aspect>-->
+        <!-- xml配置顺序有点关系.-->
+        <aop:aspect id="secondAspect" ref="second" order="1">
+            <aop:around method="around" pointcut="execution(* com.framework.spring.aop.aop1.*.*(..))"/>
+            <aop:before method="auth" pointcut="execution(* com.framework.spring.aop.aop1.*.*(..))"/>
+        </aop:aspect>
+    </aop:config>
+</beans>

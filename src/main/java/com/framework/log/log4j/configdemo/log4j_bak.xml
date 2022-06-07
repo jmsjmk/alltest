@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- For assistance related to logback-translator or configuration  -->
+<!-- files in general, please contact the logback user mailing list -->
+<!-- at http://www.qos.ch/mailman/listinfo/logback-user             -->
+<!--                                                                -->
+<!-- For professional support please see                            -->
+<!--    http://www.qos.ch/shop/products/professionalSupport         -->
+<!--                                                                -->
+<configuration>
+  <!-- Errors were reported during translation. -->
+  <!-- No root logger configuration was found -->
+  <appender name="CONSOLE1" class="ch.qos.logback.core.ConsoleAppender">
+    <Target>System.out</Target>
+    <encoder>
+      <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5p %F:%L %n%m%n</pattern>
+    </encoder>
+    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+      <level>INFO</level>
+    </filter>
+  </appender>
+  <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+    <Target>System.out</Target>
+    <encoder>
+      <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5p %-5l -%m%n</pattern>
+    </encoder>
+    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+      <level>INFO</level>
+    </filter>
+  </appender>
+  <appender name="RELOADPRMT" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <!--See http://logback.qos.ch/manual/appenders.html#RollingFileAppender-->
+    <!--and http://logback.qos.ch/manual/appenders.html#TimeBasedRollingPolicy-->
+    <!--for further documentation-->
+    <File>/app/logs/prmtlog/reloadprmt.log</File>
+    <encoder>
+      <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5p %-5l -%m%n</pattern>
+    </encoder>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>/app/logs/prmtlog/reloadprmt.log.%d{'.'yyyy-MM-dd}</fileNamePattern>
+    </rollingPolicy>
+  </appender>
+  <appender name="PRMTPACK" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <!--See http://logback.qos.ch/manual/appenders.html#RollingFileAppender-->
+    <!--and http://logback.qos.ch/manual/appenders.html#TimeBasedRollingPolicy-->
+    <!--for further documentation-->
+    <File>/app/logs/prmtlog/promotion.log</File>
+    <encoder>
+      <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5p %F:%L %m%n</pattern>
+    </encoder>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>/app/logs/prmtlog/promotion.log.%d{'.'yyyy-MM-dd}</fileNamePattern>
+    </rollingPolicy>
+  </appender>
+  <appender name="EXCUTEPRMT" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <!--See http://logback.qos.ch/manual/appenders.html#RollingFileAppender-->
+    <!--and http://logback.qos.ch/manual/appenders.html#TimeBasedRollingPolicy-->
+    <!--for further documentation-->
+    <File>/app/logs/prmtlog/excuteprmt.log</File>
+    <encoder>
+      <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5p %F:%L %m%n</pattern>
+    </encoder>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>/app/logs/prmtlog/excuteprmt.log.%d{'.'yyyy-MM-dd}</fileNamePattern>
+    </rollingPolicy>
+  </appender>
+  <appender name="SYNO2ODATA" class="ch.qos.logback.core.FileAppender">
+    <File>/app/logs/sosalog/synosa.log</File>
+    <encoder>
+      <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5p %F:%L %m%n</pattern>
+    </encoder>
+  </appender>
+  <logger name="com.jiamingku.test.LogTest" additivity="false" level="INFO">
+    <appender-ref ref="CONSOLE1"/>
+  </logger>
+  <logger name="com.msds.platformservice.promotionplatform.promotion.core" additivity="false" level="INFO">
+    <appender-ref ref="CONSOLE"/>
+    <appender-ref ref="RELOADPRMT"/>
+  </logger>
+  <logger name="com.msds.platformservice.promotionplatform.promotion" level="INFO">
+    <appender-ref ref="CONSOLE"/>
+    <appender-ref ref="PRMTPACK"/>
+  </logger>
+  <logger name="com.jiamingku.test" level="INFO">
+    <appender-ref ref="CONSOLE1"/>
+  </logger>
+  <logger name="com.msds.platformservice.promotionplatform.serviceapi.impl" additivity="false" level="INFO">
+    <appender-ref ref="CONSOLE"/>
+    <appender-ref ref="EXCUTEPRMT"/>
+  </logger>
+  <logger name="com.msds.platformservice.promotionplatform.passport.service.impl" level="INFO">
+    <appender-ref ref="CONSOLE"/>
+    <appender-ref ref="SYNO2ODATA"/>
+  </logger>
+</configuration>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+    <context:component-scan base-package="com.framework.spring.springcoreinterface.factorybean">
+    </context:component-scan>
+
+    <bean id="coreConfig" class="com.framework.spring.annotation.Counter">
+    </bean>
+
+    <!-- 配置一个bean 是工厂,我们想容器要-工厂的生成bean-直接调用就行了 -->
+    <!-- 原则还是，先有工厂工厂的set属性都摄入之后，才会有对应的产生bean-->
+    <bean id="factory" class="com.framework.spring.springcoreinterface.factorybean.FactoryBeanServiceImpl" scope="prototype">
+
+    </bean>
+
+</beans>
+

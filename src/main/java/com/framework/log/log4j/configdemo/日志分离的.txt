@@ -1,0 +1,62 @@
+=======================针对log4j.properties============================
+https://blog.csdn.net/wangchsh2008/article/details/8812857 ——修改源代码的方式来进行，主要是把阀值变化成为等于
+
+===========其实完全可以通过配置来达到效果 就是appender的filter概念
+ # Define the info file appender
+log4j.appender.FILE=org.apache.log4j.FileAppender
+log4j.appender.FILE.File=info.log
+log4j.appender.FILE.Threshold=INFO
+log4j.appender.FILE.filter.a=org.apache.log4j.varia.LevelMatchFilter
+log4j.appender.FILE.filter.a.LevelToMatch=INFO
+log4j.appender.FILE.filter.a.AcceptOnMatch=true
+log4j.appender.FILE.filter.b=org.apache.log4j.varia.LevelMatchFilter
+log4j.appender.FILE.filter.b.LevelToMatch=ERROR
+log4j.appender.FILE.filter.b.AcceptOnMatch=false
+log4j.appender.FILE.filter.c=org.apache.log4j.varia.LevelMatchFilter
+log4j.appender.FILE.filter.c.LevelToMatch=FATAL
+log4j.appender.FILE.filter.c.AcceptOnMatch=false
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+log4j.appender.R=org.apache.log4j.RollingFileAppender
+log4j.appender.R.File=FacturaElectronica.log
+log4j.appender.R.MaxFileSize=500KB
+log4j.appender.R.MaxBackupIndex=1
+log4j.appender.R.layout=org.apache.log4j.PatternLayout
+log4j.appender.R.layout.ConversionPattern=%d [%t] %-5p %c - %m%n
+log4j.appender.R.filter.a=org.apache.log4j.varia.LevelRangeFilter
+log4j.appender.R.filter.a.LevelMin=INFO
+log4j.appender.R.filter.a.LevelMax=INFO
+
+
+#### only ERROR
+log4j.appender.ERROR=org.apache.log4j.RollingFileAppender
+log4j.appender.ERROR.File=FacturaElectronicaError.txt
+log4j.appender.ERROR.MaxFileSize=500KB
+log4j.appender.ERROR.MaxBackupIndex=1
+log4j.appender.ERROR.layout=org.apache.log4j.PatternLayout
+log4j.appender.ERROR.layout.ConversionPattern=%d [%t] %-5p %c - %m%n
+log4j.appender.ERROR.filter.b=org.apache.log4j.varia.LevelMatchFilter
+log4j.appender.ERROR.filter.b.LevelToMatch=ERROR
+log4j.appender.ERROR.filter.b.AcceptOnMatch=true
+log4j.appender.ERROR.Threshold=ERROR
+=======================针对log4j.xml============================
+<appender name="log4jError" class="org.apache.log4j.DailyRollingFileAppender">
+    <param name="Append" value="true"/>
+    <param name="file" value="/Users/chengxiang/logs/application/error" />
+    <param na me="DatePattern" value="'.'yyyy-MM-dd" />
+    <layout class="org.apache.log4j.PatternLayout">
+        <param name="ConversionPattern"
+               value="%d{yyyy-MM-dd HH:mm:ss a} [Thread: %t][ Class:%c Method: %l ]%n%p:%m%n"/>
+    </layout>
+    <filter class="org.apache.log4j.varia.LevelRangeFilter">
+        <param name="LevelMin" value="ERROR"/>
+        <param name="LevelMax" value="ERROR"/>
+    </filter>
+</appender>
+
+
+===================================================
+http://blog.sina.com.cn/s/blog_56fd58ab0100tcna.html
+
+log4j.logger.myTest1=DEBUG, test1, stdout, 文章最后一个地方就应该加一个输出源.
+
+解决思路往哪里输出就加一个就可以了。

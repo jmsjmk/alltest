@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+	   http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	   http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd"
+       default-lazy-init="false">
+
+    <!--
+        单纯从配置上面来看非常简单。
+
+        主要就是配置一个增强(advice,aop与只关联）
+    -->
+
+    <!-- 定义一个普通的bean-->
+    <bean id="common" class="com.framework.spring.aop.aop3.Common"/>
+
+    <!-- 定义一个普通的bean，但是这个bean 可以是事务增强 -->
+    <bean id="check" class="com.framework.spring.aop.aop3.Check"/>
+
+    <!--
+        http://lavasoft.blog.51cto.com/62575/172292/
+
+    -->
+    <aop:config>
+        <aop:aspect id="myAop" ref="check">
+            <!-- 相当于定义了切入点 -->
+            <aop:pointcut id="target" expression="execution(* com.jiamingku.spring.aop.aop3.Common.execute(..))"/>
+            <!-- 在切入点之前执行什么-->
+            <aop:before method="checkValidity" pointcut-ref="target"/>
+            <!-- 在切入点之后执行什么-->
+            <aop:after method="addLog" pointcut-ref="target"/>
+        </aop:aspect>
+    </aop:config>
+</beans>

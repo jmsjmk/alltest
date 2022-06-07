@@ -1,0 +1,120 @@
+<?xml version= "1.0" encoding ="UTF-8"?>
+<!-- Logger Level TRACE < DEBUG < INFO < WARN < ERROR -->
+<configuration scan= "true" scanPeriod ="60 seconds" debug="TRUE">
+    <!-- 日志保存路径为tomcat下面的logs下面的DataServiceLogs文件夹， logback会自动创建文件夹，这样设置了就可以输出日志文件了 -->
+    <substitutionProperty name ="logbase" value="/app/logs/" />
+    <!-- 这个是要配置输出文件的 -->
+    <jmxConfigurator />
+    <appender name ="CONSOLE" class= "ch.qos.logback.core.ConsoleAppender" >
+        <layout class ="ch.qos.logback.classic.PatternLayout">
+            <pattern >%d{ yyyy-MM-dd HH:mm:ss} - %-5p %F:%-3L - %msg%n</pattern >
+        </layout>
+    </appender >
+
+    <appender name ="RELOADPRMT"
+              class= "ch.qos.logback.core.rolling.RollingFileAppender" >
+        <File >${ logbase}/prmtlog /reloadprmt.log</ File>
+        <encoder >
+            <pattern >%d{ yyyy-MM-dd HH:mm:ss} %-5p %F:%-3L - %msg%n</pattern >
+        </encoder>
+        <rollingPolicy class= "ch.qos.logback.core.rolling.TimeBasedRollingPolicy" >
+            <fileNamePattern >${ logbase}/prmtlog /%d{yyyy-MM-dd}.reloadprmt.log
+            </fileNamePattern>
+        </rollingPolicy>
+    </appender >
+
+    <appender name ="EXCUTEPRMT"
+              class= "ch.qos.logback.core.rolling.RollingFileAppender" >
+        <File >${ logbase}/prmtlog /excuteprmt.log</ File>
+        <encoder >
+            <pattern >%d{ yyyy-MM-dd HH:mm:ss} %-5p %F:%-3L - %msg%n</pattern >
+        </encoder>
+        <rollingPolicy class= "ch.qos.logback.core.rolling.TimeBasedRollingPolicy" >
+            <fileNamePattern >${ logbase}/prmtlog /%d{yyyy-MM-dd}.excuteprmt.log
+            </fileNamePattern>
+        </rollingPolicy>
+    </appender >
+
+    <appender name ="PRMTPACK"
+              class= "ch.qos.logback.core.rolling.RollingFileAppender" >
+        <File >${ logbase}/prmtlog /promotion.log</ File>
+        <encoder >
+            <pattern >%d{ yyyy-MM-dd HH:mm:ss} %-5p %F:%-3L - %msg%n</pattern >
+        </encoder>
+        <rollingPolicy class= "ch.qos.logback.core.rolling.TimeBasedRollingPolicy" >
+            <fileNamePattern >${ logbase}/prmtlog /%d{yyyy-MM-dd}.promotion.log
+            </fileNamePattern>
+        </rollingPolicy>
+    </appender >
+
+    <!-- 错误记录 -->
+    <appender name ="LogErrorFile"
+              class= "ch.qos.logback.core.rolling.RollingFileAppender" >
+        <filter class= "ch.qos.logback.classic.filter.LevelFilter" >
+            <level >DEBUG </level>
+            <OnMismatch >DENY </OnMismatch>
+            <OnMatch >ACCEPT </OnMatch>
+        </filter>
+        <File >${ logbase}_error.log</File >
+        <rollingPolicy class= "ch.qos.logback.core.rolling.FixedWindowRollingPolicy" >
+            <FileNamePattern >${ logbase}-Error.log.%i.zip</FileNamePattern >
+            <MinIndex >1 </MinIndex>
+            <MaxIndex >3 </MaxIndex>
+        </rollingPolicy>
+        <triggeringPolicy
+                class= "ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy" >
+            <MaxFileSize >100MB </MaxFileSize>
+        </triggeringPolicy>
+        <layout class ="ch.qos.logback.classic.PatternLayout">
+            <Pattern >%d{ yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} -
+                % msg%n</Pattern >
+        </layout>
+    </appender >
+
+    <!-- Output by Email -->
+    <appender name ="Email" class= "ch.qos.logback.classic.net.SMTPAppender" >
+        <SMTPHost >smtp.263xmail.com</ SMTPHost>
+        <To >wangkuangwei@novel-supertv.com</ To>
+        <From >zhouhuichun@novel-supertv.com</ From>
+        <Subject >DataService-Error-LogMessage: %logger{20} - %m</Subject>
+        <username >2121@163. com</ username>
+        <password >test </password>
+        <asynchronousSending >true </asynchronousSending>
+        <layout class ="ch.qos.logback.classic.PatternLayout">
+            <pattern >%d{ yyyy-MM-dd HH:mm:ss.SSS} %-5level %logger{36} - %msg%n
+            </pattern>
+        </layout>
+    </appender >
+    <logger name= "com.msds.platformservice.promotionplatform.promotion"
+            level= "INFO">
+        <appender-ref ref ="CONSOLE" />
+        <appender-ref ref ="PRMTPACK" />
+    </logger >
+    <logger name ="com.jiamingku.test.LogTest" additivity= "false"
+            level= "INFO">
+        <appender-ref ref ="CONSOLE1" />
+    </logger >
+    <logger name= "com.msds.platformservice.promotionplatform.core"
+            additivity= "false" level ="INFO">
+        <appender-ref ref ="CONSOLE" />
+        <appender-ref ref ="RELOADPRMT" />
+    </logger >
+    <logger name= "com.msds.platformservice.promotionplatform.serviceapi.impl"
+            additivity= "false" level ="INFO">
+        <appender-ref ref ="CONSOLE" />
+        <appender-ref ref ="EXCUTEPRMT" />
+    </logger >
+    <logger name ="com.jiamingku.test" level= "INFO">
+        <appender-ref ref ="CONSOLE1" />
+    </logger >
+
+</configuration>
+
+
+        <!--
+                <filter class="ch.qos.logback.classic.filter.LevelFilter">
+                    <level>ERROR</level>
+                    <onMatch>ACCEPT</onMatch>
+                    <onMismatch>DENY </onMismatch>
+                </filter>
+        -->

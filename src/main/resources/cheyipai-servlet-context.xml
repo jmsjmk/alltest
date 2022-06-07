@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:mvc="http://www.springframework.org/schema/mvc"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:context="http://www.springframework.org/schema/context"
+             xmlns:util="http://www.springframework.org/schema/util"
+             xmlns:aop="http://www.springframework.org/schema/aop"
+             xsi:schemaLocation="http://www.springframework.org/schema/mvc
+             http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/util
+		http://www.springframework.org/schema/util/spring-util.xsd
+		http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure test-->
+
+    <!-- Enables the Spring MVC @Controller programming model -->
+    <context:annotation-config/>
+    <mvc:annotation-driven>
+        <mvc:message-converters register-defaults="true">
+            <beans:bean class="com.cheyipai.mapi.common.interceptor.UTF8StringHttpMessageConverter"></beans:bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+    <context:component-scan base-package="com.cheyipai.mapi" ></context:component-scan>
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
+    <beans:bean class="com.cheyipai.mapi.common.SpringContext"/>
+
+    <beans:bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+        <beans:property name="ignoreDefaultModelOnRedirect" value="true"/>
+        <beans:property name="messageConverters">
+            <util:list>
+                <beans:ref bean="mappingJacksonHttpMessageConverter"/>
+            </util:list>
+        </beans:property>
+    </beans:bean>
+
+    <beans:bean id="mappingJacksonHttpMessageConverter"
+                class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
+        <beans:property name="supportedMediaTypes">
+            <beans:list>
+                <beans:value>application/json;charset=UTF-8</beans:value>
+            </beans:list>
+        </beans:property>
+    </beans:bean>
+    <mvc:interceptors>
+        <beans:bean class="com.cheyipai.mapi.common.interceptor.WebContextInterceptor"/>
+    </mvc:interceptors>
+
+    <!-- Aop切面记录日志 start -->
+    <aop:config>
+        <aop:aspect id="aroundMethod" ref="performanceAopAdvice">
+            <aop:pointcut id="performanceMonitorPoint"
+                          expression="execution(* com.cheyipai.mapi.service.*.*(..))" />
+            <aop:around pointcut-ref="performanceMonitorPoint" method="aroundMethod" />
+        </aop:aspect>
+    </aop:config>
+    <beans:bean id="performanceAopAdvice"
+          class="com.cyp.log.snooper.PerformanceAopAdvice">
+        <beans:property name="oTraceSwitch" value="false"/>
+    </beans:bean>
+
+    <!-- 使用disconf必须添加以下配置 -->
+    <beans:bean id="disconfMgrBean" class="com.baidu.disconf.client.DisconfMgrBean"
+          destroy-method="destroy">
+        <beans:property name="scanPackage" value="com.cheyipai.mapi"/>
+    </beans:bean>
+    <beans:bean id="disconfMgrBean2" class="com.baidu.disconf.client.DisconfMgrBeanSecond"
+          init-method="init" destroy-method="destroy">
+    </beans:bean>
+
+    <!-- 使用托管方式的disconf配置(无代码侵入, 配置更改会自动reload)-->
+    <beans:bean id="configproperties_disconf"
+          class="com.baidu.disconf.client.addons.properties.ReloadablePropertiesFactoryBean">
+        <beans:property name="locations">
+            <beans:list>
+                <beans:value>classpath:/monitor.properties</beans:value>
+                <beans:value>classpath:/disconf.properties</beans:value>
+                <beans:value>classpath:/sys.properties</beans:value>
+                <beans:value>classpath:/url.properties</beans:value>
+            </beans:list>
+        </beans:property>
+    </beans:bean>
+
+    <beans:bean id="propertyConfigurer"
+          class="com.baidu.disconf.client.addons.properties.ReloadingPropertyPlaceholderConfigurer">
+        <beans:property name="ignoreResourceNotFound" value="true" />
+        <beans:property name="ignoreUnresolvablePlaceholders" value="true" />
+        <beans:property name="propertiesArray">
+            <beans:list>
+                <beans:ref bean="configproperties_disconf"/>
+            </beans:list>
+        </beans:property>
+    </beans:bean>
+    
+    <!--Controller 日志Aspect--> 
+    <beans:bean id="controllerAspectBean" class="com.cheyipai.mapi.core.aspect.ControllerAspect"></beans:bean>
+    <aop:config>    	
+    	<aop:aspect id="controllerAspect" ref="controllerAspectBean">
+    		<aop:pointcut expression="execution(public * com.cheyipai.mapi.business.*.*(..))" id="controllerLog"/>
+    		<aop:before method="before" pointcut-ref="controllerLog"/>
+    	</aop:aspect>
+    </aop:config>
+
+</beans:beans>
+
+
+
+
+

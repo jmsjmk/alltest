@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/beans"
+			 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+			 xmlns:beans="http://www.springframework.org/schema/beans"
+			 xmlns:context="http://www.springframework.org/schema/context"
+			 xmlns:aop="http://www.springframework.org/schema/aop"
+			 xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+		http://www.springframework.org/schema/aop 
+		http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context-3.2.xsd"
+>
+	<context:annotation-config />
+	<aop:aspectj-autoproxy />
+
+
+	<beans:bean id="parentDataSource" class="com.alibaba.druid.pool.DruidDataSource"
+		destroy-method="close">
+		
+		<beans:property name="initialSize" value="2"></beans:property>
+		<beans:property name="maxActive" value="2"></beans:property>
+		<beans:property name="maxIdle" value="2"></beans:property>
+		<beans:property name="minIdle" value="2"></beans:property>
+		<beans:property name="logAbandoned" value="true"></beans:property>
+		<beans:property name="removeAbandoned" value="true"></beans:property>
+		<beans:property name="removeAbandonedTimeout" value="180"></beans:property>
+		<beans:property name="maxWait" value="3000"></beans:property>
+		<beans:property name="validationQuery" value="SELECT 1"></beans:property>
+		<beans:property name="testOnBorrow" value="true"></beans:property>
+		<beans:property name="testWhileIdle" value="true"></beans:property>
+		<beans:property name="timeBetweenEvictionRunsMillis" value="8500"></beans:property>
+		<beans:property name="minEvictableIdleTimeMillis" value="9500"></beans:property>
+	</beans:bean>
+	
+	<beans:bean id="webmsWriteDataSource" parent="parentDataSource" >
+		<beans:property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<beans:property name="url" value="jdbc:mysql://10.20.10.100:3306/mp_driver?characterEncoding=utf-8"></beans:property>
+		<beans:property name="username" value="sqhc_rentcar"></beans:property>
+		<beans:property name="password" value="BzkmQM%O^U7Dy8X3"></beans:property>
+	</beans:bean>
+	
+	<beans:bean id="webmsReadDataSource" parent="parentDataSource" >
+		<beans:property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<beans:property name="url" value="jdbc:mysql://mysql-m-wr-car-all-dev-new-db.01zhuanche.com:3307/mp_driver?characterEncoding=utf-8"></beans:property>
+		<beans:property name="username" value="dev_sqhc_rentcar"></beans:property>
+		<beans:property name="password" value="dev_BzkmQM%O^U7Dy8X3"></beans:property>
+	</beans:bean>
+
+
+	<bean id="multiDataSource" class="com.framework.spring.datasource.MultiDataSource">
+		<property name="defaultTargetDataSource" ref="webmsWriteDataSource"></property>
+		<property name="targetDataSources">
+			<map>
+				<entry key="master" value-ref="webmsWriteDataSource"/>
+				<!-- read -->
+				<entry key="slave" value-ref="webmsReadDataSource"/>
+			</map>
+		</property>
+	</bean>
+
+
+
+	<beans:bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<beans:property name="dataSource" ref="multiDataSource" />
+		<beans:property name="configLocation" value="classpath:mybatis-config.xml" />
+	</beans:bean>
+	
+	<!-- 事务管理相关 -->
+	<!-- 
+	<beans:bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<beans:property name="dataSource" ref="dataSource" />
+	</beans:bean> 
+	<tx:annotation-driven transaction-manager="transactionManager" /> 
+	-->
+
+	<!-- 加载配置文件 -->
+	<beans:bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<beans:property name="basePackage" value="com.cheyipai.mobile.servitization.webms.mapper" />
+	</beans:bean>
+
+	<!--&lt;!&ndash; 配置数据库注解aop &ndash;&gt;-->
+	<!--<beans:bean id="manyDataSourceAspect" class="com.cheyipai.commons.db.ManyDataSourceAspect" />-->
+	
+	<!--&lt;!&ndash; 配置功能过滤 &ndash;&gt;-->
+	<!--<aop:config>-->
+        <!--<aop:aspect id="c" ref="manyDataSourceAspect">-->
+	        <!--<aop:pointcut id="tx" expression="execution(* com.cheyipai.mobile.servitization.webms.mapper.*.*(..))"/>-->
+	        <!--<aop:before pointcut-ref="tx" method="before"/>-->
+        <!--</aop:aspect>  -->
+	<!--</aop:config>-->
+	
+	<bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+	    <property name="dataSource" ref="webmsWriteDataSource" />
+	</bean>
+
+</beans:beans>

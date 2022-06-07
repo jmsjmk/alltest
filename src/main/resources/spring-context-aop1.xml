@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+" default-lazy-init="false">
+
+
+    <!-- 使用Annotation自动注册Bean，解决事物失效问题：在主容器中不扫描@Controller注解，在SpringMvc中只扫描@Controller注解。  -->
+    <context:component-scan base-package="com.jiamingku.spring"><!-- base-package 如果多个，用“,”分隔 -->
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+    <!--#########################################second config begin###############################################-->
+
+
+    <!--#########################################second config begin###############################################-->
+
+
+
+
+
+
+
+    <!--#########################################fist config begin###############################################-->
+
+    <bean class="com.jiamingku.spring.annotationandxml.A"></bean>
+
+
+
+
+
+
+
+    <!-- 增强那个bean-->
+    <bean id="human" class="com.jiamingku.spring.aop.apo1.Human" />
+
+    <!-- advice 增强 -->
+    <bean id="sleepHelper" class="com.jiamingku.spring.aop.apo1.SleepHelper"/>
+
+    <!-- 切入点，匹配说有的切入方法 -->
+    <bean id="spleepPointcut" class="org.springframework.aop.support.JdkRegexpMethodPointcut">
+        <property name="pattern" value=".*sleep"/>
+    </bean>
+
+    <!--
+        spleepPointcut:切点仅仅是定义了故事发生的地点，
+        sleepHelper: 还有故事发生的时间以及最重要的故事的内容,就是通知了 也就是所说的advice
+
+        但最主要的事：，
+            我们需要把通知跟切点结合起来，我们要使用的通知者是:
+
+        这种配置超级复杂，不好使用
+    -->
+    <bean id="sleepHelperAdvisor" class="org.springframework.aop.support.DefaultPointcutAdvisor">
+        <property name="advice" ref="sleepHelper"/>
+        <property name="pointcut" ref="spleepPointcut"/>
+    </bean>
+
+    <!--
+        通知与结合点都结合起来之后，我们要使用的话，就需要配置个代理类。
+    -->
+    <bean id="humanProxy" class="org.springframework.aop.framework.ProxyFactoryBean">
+        <property name="target" ref="human"/>
+        <property name="interceptorNames" value="sleepHelperAdvisor" />
+        <property name="proxyInterfaces" value="com.jiamingku.spring.aop.apo1.Sleepable" />
+    </bean>
+
+    <!--#########################################fist config end###############################################-->
+
+
+
+
+
+</beans>

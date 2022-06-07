@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                        http://www.springframework.org/schema/beans/spring-beans.xsd
+                        http://www.springframework.org/schema/context
+                        http://www.springframework.org/schema/context/spring-context.xsd
+                        http://www.springframework.org/schema/aop
+                        http://www.springframework.org/schema/aop/spring-aop.xsd
+                        http://www.springframework.org/schema/mvc
+                        http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+    <!--
+        单纯从配置上面来看非常简单。
+        主要就是配置一个增强(advice,aop与只关联）
+    -->
+    <context:component-scan base-package="com.framework.spring.annotationandxml"/>
+
+    <!-- id 同名会创建么.-->
+    <bean id="a" class="com.framework.spring.annotationandxml.A"/>
+
+    <!--&lt;!&ndash;com.framework.spring.annotationandxml.D&ndash;&gt;-->
+
+    <!--<bean id="d" class="com.framework.spring.annotationandxml.D">-->
+        <!--<property name="b" ref="b"/>-->
+    <!--</bean>-->
+
+
+
+</beans>

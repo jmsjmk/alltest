@@ -1,0 +1,43 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "文档搜索器-API",
+    "version" : "v1",
+    "title" : "文档搜索器"
+  },
+  "host" : "localhost:8080",
+  "basePath" : "/doc-searcher-web",
+  "tags" : [ {
+    "name" : "文档搜索器API"
+  } ],
+  "schemes" : [ "http" ],
+  "paths" : {
+    "/test/spider/{id}" : {
+      "post" : {
+        "tags" : [ "文档搜索器API" ],
+        "summary" : "测试1",
+        "description" : "",
+        "operationId" : "spider",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "测试id",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int32"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "type" : "object",
+              "additionalProperties" : {
+                "type" : "object"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,4 @@
+{"@timestamp":"2020-08-19T15:08:51.620+08:00","URL":"","traceId":"","level":"INFO","service":"mp-manage","host":"%PARSER_ERROR[ip]","thread":"main","class":"com.jiamingku.log","line":"18","log_message":"INFO"}
+{"@timestamp":"2020-08-19T15:13:18.468+08:00","URL":"","traceId":"","level":"INFO","service":"mp-manage","host":"%PARSER_ERROR[ip]","thread":"main","class":"com.jiamingku.log","line":"18","log_message":"INFO"}
+{"@timestamp":"2020-08-19T15:14:03.230+08:00","URL":"","traceId":"","level":"INFO","service":"mp-manage","host":"%PARSER_ERROR[ip]","thread":"main","class":"com.jiamingku.log","line":"18","log_message":"INFO"}
+{"@timestamp":"2020-08-19T15:20:36.985+08:00","URL":"","traceId":"","level":"ERROR","service":"mp-manage","host":"%PARSER_ERROR[ip]","thread":"main","class":"com.jiamingku.log","line":"30","log_message":"ERROR"}

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                        http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean class="com.framework.spring.beanpostprocessortestxml.HelloImpl">
+    </bean>
+    <bean id="hello2" class="com.framework.spring.beanpostprocessortestxml.HelloImpl2" init-method="foo">
+        <property name="helloImpl3" ref="hello3"/>
+    </bean>
+    <bean id="hello3" class="com.framework.spring.beanpostprocessortestxml.HelloImpl3"/>
+</beans>

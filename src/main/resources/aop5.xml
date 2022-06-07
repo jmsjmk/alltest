@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-4.2.xsd">
+
+
+    <bean id="helloWorldImpl1" class="com.framework.spring.aop.aop4.HelloWorldImpl1"/>
+    <bean id="helloWorldImpl2" class="com.framework.spring.aop.aop4.HelloWorldImpl2"/>
+
+
+    <bean id="timeHandler" class="com.framework.spring.aop.aop4.TimeHandler"/>
+    <bean id="logHandler" class="com.framework.spring.aop.aop5.LogHandler"/>
+
+    <aop:config>
+        <aop:pointcut id="addTime" expression="execution(*  com.framework.spring.aop.aop4.HelloWorld.*(..))"/>
+
+        <aop:aspect id="time" ref="timeHandler" order="2">
+            <!-- 定义在外面层次的话，他的就可以为多个切面共享-->
+            <aop:before method="beforeTime" pointcut-ref="addTime"/>
+            <aop:after method="afterTime" pointcut-ref="addTime"/>
+        </aop:aspect>
+
+        <aop:aspect id="log" ref="logHandler" order="1">
+            <!-- 私有的内部切入点 -->
+            <aop:pointcut id="printLog" expression="execution(*  com.framework.spring.aop.aop4.HelloWorld.*(..))"/>
+
+            <aop:before method="LogBefore" pointcut-ref="addTime"/>
+            <aop:after method="LogAfter" pointcut-ref="printLog"/>
+        </aop:aspect>
+    </aop:config>
+</beans>

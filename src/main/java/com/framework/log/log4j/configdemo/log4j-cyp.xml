@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration PUBLIC "-//APACHE//DTD LOG4J 1.2//EN" 
+    "http://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/xml/doc-files/log4j.dtd" >
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+   
+   <appender name="console" class="org.apache.log4j.ConsoleAppender">
+      <param name="threshold" value="INFO" />
+      <layout class="org.apache.log4j.PatternLayout">
+         <param name="ConversionPattern"
+            value="[%d{yyyy-MM-dd HH:mm:ss.SSS\} %-5p] [%t] (%c{1}:%L) %m%n" />
+      </layout>
+   </appender>
+
+   <appender name="default_appender" class="org.apache.log4j.RollingFileAppender">
+      <param name="file" value="/data/logs/servitization.log" />
+      <param name="Append" value="true" />
+      <param name="encoding" value="utf-8" />
+      <param name="maxBackupIndex" value="9" />
+      <param name="maxFileSize" value="104857600" />
+      <param name="threshold" value="INFO" />
+      <layout class="org.apache.log4j.PatternLayout">
+         <param name="ConversionPattern"
+            value="[%d{yyyy-MM-dd HH:mm:ss.SSS\} %-5p] (%c{1}:%L) %m%n" />
+      </layout>
+   </appender>
+
+   <appender name="default_appender_error" class="org.apache.log4j.DailyRollingFileAppender">
+      <param name="file" value="/data/logs/servitization_error.log" />
+      <param name="DatePattern" value="'.'yyyy-MM-dd" />
+      <param name="Append" value="true" />
+      <param name="encoding" value="utf-8" />
+      <param name="threshold" value="ERROR" />
+      <layout class="com.cheyipai.commons.log.ErrorLogLayout">
+         <param name="ConversionPattern"
+               value="%d{yyyy-MM-dd HH:mm:ss.SSS\}\t%-5p\t%t\t%c{1}\t%L\t%X{traceId}\t%m" />
+      </layout>
+   </appender>
+
+   <appender name="sync_commons_log" class="com.cheyipai.commons.log.DailyRollingFileAppender">
+      <param name="file" value="/data/logs/" />
+      <param name="DatePattern" value="'log_platform_servitization.'yyyyMMddHH'.log'" />
+      <param name="Append" value="true" />
+      <param name="encoding" value="utf-8" />
+      <param name="threshold" value="INFO" />
+      <param name="BufferSize" value="4096" />
+      <layout class="org.apache.log4j.PatternLayout">
+         <param name="ConversionPattern" value="%m" />
+      </layout>
+   </appender>
+
+   <!--
+   add by jiamingku 去掉没有用的日志
+   add by jiamingku 分支测试修改代码
+   <appender name="hadoop_header_append"
+      class="com.cheyipai.commons.log.DailyRollingFileAppender">
+      <param name="file" value="../logs/" />
+      <param name="DatePattern" value="'hadoop_header.'yyyyMMddHH'.log'" />
+       设置是否在重新启动服务时，在原有日志的基础添加新日志 
+      <param name="Append" value="true" />
+      <param name="encoding" value="utf-8" />
+      <param name="threshold" value="INFO" />
+      <param name="BufferSize" value="1024" />
+      <param name="Blocking" value="false" />
+      <layout class="org.apache.log4j.PatternLayout">
+         <param name="ConversionPattern" value="%d{yyyy-MM-dd\tHH:mm:ss.SSS\}\t%m%n" />
+      </layout>
+   </appender>
+   -->
+
+    <!-- kafuka begi -->
+   <!-- 设置异步输入日志 -->
+   <appender name="kafka" class="kafka.producer.KafkaLog4jAppender"> 
+      <param name="topic" value="checklist"/>
+      <param name="brokerList" value="192.168.106.5:9092, 192.168.106.6:9092, 192.168.106.7:9092"/>
+      <param name="compressionType" value="none"/>
+      <param name="syncSend" value="false"/>   
+       <param name="requiredNumAcks" value="0"/>     
+      <layout class="org.apache.log4j.PatternLayout">
+          <param name="ConversionPattern" value="%m%n"/> 
+      </layout>     
+   </appender>
+
+   <appender name="biglog" class="org.apache.log4j.DailyRollingFileAppender">
+      <param name="file" value="/data/logs/biglog"/>
+      <param name="DatePattern" value="'.'yyyy-MM-dd'.log'" />
+      <param name="Append" value="true" />
+      <param name="encoding" value="utf-8" />
+      <param name="threshold" value="INFO" />
+      <layout class="org.apache.log4j.PatternLayout">
+         <param name="ConversionPattern" value="%m%n"/>
+      </layout>
+   </appender>
+
+   <!-- 设置异步输入日志 -->
+   <appender name="asyncappender" class="org.apache.log4j.AsyncAppender">       
+       <appender-ref ref="kafka"/> 
+   </appender>
+
+   <logger name="kafkaLogger" additivity="false">
+      <level value="INFO" />
+      <appender-ref ref="asyncappender" />
+   </logger>
+   <!-- kafuka end -->
+
+   <!--   
+   add by jiamingku 屏蔽
+   <logger name="servitization_hadoop_header_log" additivity="false">
+      <level value="INFO" />
+      <appender-ref ref="hadoop_header_append" />
+   </logger>
+   -->
+
+   <logger name="servitization_log" additivity="false">
+      <level value="INFO" />
+      <appender-ref ref="sync_commons_log" />
+   </logger>
+
+   <logger name="biglog" additivity="false">
+      <level value="INFO" />
+      <appender-ref ref="biglog"/>
+   </logger>
+
+   <logger name="org.springframework">
+      <level value="ERROR" />
+   </logger>
+   <logger name="org.apache.zookeeper">
+      <level value="ERROR" />
+   </logger>
+
+   <root>
+      <appender-ref ref="console" />
+      <appender-ref ref="default_appender" />
+      <appender-ref ref="default_appender_error" />
+   </root>
+
+</log4j:configuration>

@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+	<!-- ========================== 自定义输出格式说明================================ -->
+	<!-- %p 输出优先级，即DEBUG，INFO，WARN，ERROR，FATAL -->
+	<!-- #%r 输出自应用启动到输出该log信息耗费的毫秒数 -->
+	<!-- #%c 输出所属的类目，通常就是所在类的全名 -->
+	<!-- #%t 输出产生该日志事件的线程名 -->
+	<!-- #%n 输出一个回车换行符，Windows平台为“\r\n”，Unix平台为“\n” -->
+	<!-- #%d 输出日志时间点的日期或时间，默认格式为ISO8601，也可以在其后指定格式，比如：%d{yyy MMM dd HH:mm:ss,SSS}，输出类似：2002年10月18日 
+		22：10：28，921 -->
+	<!-- #%l 输出日志事件的发生位置，包括类目名、发生的线程，以及在代码中的行数。举例：Testlog4.main(TestLog4.java:10) -->
+	<!-- ========================================================================== -->
+
+	<!-- ========================== 输出方式说明================================ -->
+	<!-- Log4j提供的appender有以下几种: -->
+	<!-- org.apache.log4j.ConsoleAppender(控制台), -->
+	<!-- org.apache.log4j.FileAppender(文件), -->
+	<!-- org.apache.log4j.DailyRollingFileAppender(每天产生一个日志文件), -->
+	<!-- org.apache.log4j.RollingFileAppender(文件大小到达指定尺寸的时候产生一个新的文件), -->
+	<!-- org.apache.log4j.WriterAppender(将日志信息以流格式发送到任意指定的地方) -->
+	<!-- # DEBUG < INFO < WARN < ERROR < FATAL -->
+	<!-- ========================================================================== -->
+
+	<!-- info和error日志 每天一个日志 -->
+	<appender name="default_appender_daily" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="file" value="/data/logs/servitization_webms_default.log" />
+		<param name="DatePattern" value="'.'yyyy-MM-dd-HH'.log'" />
+		<!-- 设置是否在重新启动服务时，在原有日志的基础添加新日志 -->
+		<param name="Append" value="true" />
+		<!-- <param name="BufferSize" value="8192"/> -->
+		<!-- <param name="ImmediateFlush" value="false"/> -->
+		<!-- <param name="BufferedIO" value="true"/> -->
+		<param name="encoding" value="utf-8" />
+		<param name="threshold" value="INFO" />
+		<layout class="com.cheyipai.commons.log.PatternLayout">
+			<param name="filterLabel"
+				value="Email,PhoneNo,pwd,password,cvv,creditcardnumber,creditcardno,certificatenumber,certificateno,connectormobile,mobiletelephone,contactmobile,mobile,authorpwd" />
+			<param name="ConversionPattern"
+				value="[%d{yyyy-MM-dd HH:mm:ss.SSS\} %-5p] [%t] (%c{1}:%L) -[%X{traceId}] %m%n" />
+		</layout>
+	</appender>
+	<!-- error日志 每天一个日志 -->
+	<appender name="error_appender_daily" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="file" value="/data/logs/servitization_webms_error.log" />
+		<param name="DatePattern" value="'.'yyyy-MM-dd" />
+		<!-- 设置是否在重新启动服务时，在原有日志的基础添加新日志 -->
+		<param name="Append" value="true" />
+		<param name="encoding" value="utf-8" />
+		<param name="threshold" value="ERROR" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern"
+				value="[%d{yyyy-MM-dd HH:mm:ss.SSS\} %-5p] [%t] (%c{1}:%L) -[%X{traceId}] %m%n" />
+		</layout>
+	</appender>
+
+	<!-- 输出到控制台中 -->
+	<appender name="console" class="org.apache.log4j.ConsoleAppender">
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern"
+				value="[%d{yyyy-MM-dd HH:mm:ss.SSS\} %-5p] [%t] (%c{1}:%L) -[%X{traceId}] %m%n" />
+		</layout>
+	</appender>
+
+	<!-- 设置异步输入日志 -->
+	<appender name="async_default_log" class="org.apache.log4j.AsyncAppender">
+		<param name="BufferSize" value="1" />
+		<param name="LocationInfo" value="true" />
+		<param name="Blocking" value="false" />
+		<appender-ref ref="default_appender_daily" />
+	</appender>
+
+	<appender name="mybatis_appender_daily" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="file" value="/data/logs/servitization_webms_sql.log" />
+		<param name="DatePattern" value=".yyyy-MM-dd" />
+		<!-- 设置是否在重新启动服务时，在原有日志的基础添加新日志 -->
+		<param name="Append" value="true" />
+		<param name="encoding" value="utf-8" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern"
+				value="[%d{yyyy-MM-dd HH:mm:ss.SSS\} %-5p] [%t] (%c{1}:%L) -[%X{traceId}] %m%n" />
+		</layout>
+	</appender>
+	<appender name="appender_url_monitor_daily"
+		class="com.cheyipai.commons.log.DailyRollingFileAppender">
+		<param name="file" value="/data/logs/" />
+		<param name="DatePattern"
+			value="'In_servitization_webms_url_monitor.'yyyy-MM-dd-HH'.log'" />
+		<!-- 设置是否在重新启动服务时，在原有日志的基础添加新日志 -->
+		<param name="Append" value="true" />
+		<param name="encoding" value="utf-8" />
+		<param name="threshold" value="info" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%m%n" />
+		</layout>
+	</appender>
+	<appender name="async_url_monitor_log" class="org.apache.log4j.AsyncAppender">
+		<param name="BufferSize" value="8192" />
+		<param name="LocationInfo" value="true" />
+		<param name="Blocking" value="false" />
+		<appender-ref ref="appender_url_monitor_daily" />
+	</appender>
+	<!-- 配置spring输出日志类型 -->
+	<!-- <logger name="log4j.logger.org.springframework" additivity="true"> -->
+	<!-- <level value="WARN"/> -->
+	<!-- <appender-ref ref="console"/> -->
+	<!-- </logger> -->
+	<!-- 配置mybatis输出日志类型 -->
+	<!-- <logger name="log4j.logger.org.apache.ibatis" additivity="true"> -->
+	<!-- <level value="DEBUG"/> -->
+	<!-- </logger> -->
+	<!-- <logger name="log4j.logger.org.apache.commons.dbcp.BasicDataSource" 
+		additivity="true"> -->
+	<!-- <level value="DEBUG"/> -->
+	<!-- </logger> -->
+	<!-- <logger name="log4j.logger.org.apache.ibatis.jdbc.ScriptRunner" additivity="true"> -->
+	<!-- <level value="DEBUG"/> -->
+	<!-- </logger> -->
+	<logger name="log4j.logger.java.sql.Connection" additivity="true">
+		<level value="DEBUG" />
+	</logger>
+	<logger name="log4j.logger.java.sql.Statement" additivity="true">
+		<level value="DEBUG" />
+	</logger>
+	<logger name="log4j.logger.java.sql.PreparedStatement" additivity="true">
+		<level value="DEBUG" />
+		<appender-ref ref="mybatis_appender_daily" />
+	</logger>
+	<logger name="log4j.logger.java.sql.ResultSet" additivity="true">
+		<level value="DEBUG" />
+	</logger>
+	<logger name="URLMonitorLogger" additivity="false">
+		<level value="info" />
+		<appender-ref ref="async_url_monitor_log" />
+	</logger>
+	<root>
+		<!-- root 整体设置过滤优先级，如果appender 没有设置filter或Threshold 默认采用该级别，定义的logger不在其中（即不会被过滤掉）。 -->
+		<priority value="DEBUG" />
+		<appender-ref ref="console" />
+		<appender-ref ref="async_default_log" />
+		<appender-ref ref="error_appender_daily" />
+	</root>
+</log4j:configuration>

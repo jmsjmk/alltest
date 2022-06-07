@@ -1,0 +1,636 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.jiamingku.test</groupId>
+    <artifactId>alltest</artifactId>
+    <version>1.0</version>
+    <packaging>war</packaging>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+
+
+            <!--<plugin>-->
+            <!--<groupId>com.github.kongchen</groupId>-->
+            <!--<artifactId>swagger-maven-plugin</artifactId>-->
+            <!--<version>3.1.4</version>-->
+            <!--<configuration>-->
+            <!--<apiSources>-->
+            <!--<apiSource>-->
+            <!--<springmvc>true</springmvc>-->
+            <!--<locations>-->
+            <!--<location>com.framework.springmvc.controller</location>-->
+            <!--</locations>-->
+            <!--<schemes>-->
+            <!--<scheme>http</scheme>-->
+            <!--<scheme>https</scheme>-->
+            <!--</schemes>-->
+            <!--<host>xxxx</host>-->
+            <!--<basePath>/api</basePath>-->
+            <!--<info>-->
+            <!--<title>Swagger Maven Plugin Sample</title>-->
+            <!--<version>v1</version>-->
+            <!--<description>-->
+            <!--This is a sample.-->
+            <!--</description>-->
+            <!--<termsOfService>-->
+            <!--http://www.github.com/kongchen/swagger-maven-plugin-->
+            <!--</termsOfService>-->
+            <!--<contact>-->
+            <!--<email>xxx</email>-->
+            <!--<name>xxx</name>-->
+            <!--<url>xxx</url>-->
+            <!--</contact>-->
+            <!--<license>-->
+            <!--<url>http://www.apache.org/licenses/LICENSE-2.0.html</url>-->
+            <!--<name>Apache 2.0</name>-->
+            <!--</license>-->
+            <!--</info>-->
+            <!--<swaggerDirectory>${basedir}/src/main/generated/swagger-ui</swaggerDirectory>-->
+            <!--</apiSource>-->
+            <!--</apiSources>-->
+            <!--</configuration>-->
+            <!--<executions>-->
+            <!--<execution>-->
+            <!--<phase>compile</phase>-->
+            <!--<goals>-->
+            <!--<goal>generate</goal>-->
+            <!--</goals>-->
+            <!--</execution>-->
+            <!--</executions>-->
+            <!--<plugin>-->
+            <!--<groupId>com.github.kongchen</groupId>-->
+            <!--<artifactId>swagger-maven-plugin</artifactId>-->
+            <!--<version>3.1.0</version>-->
+            <!--<configuration>-->
+            <!--<apiSources>-->
+            <!--<apiSource>-->
+            <!--&lt;!&ndash; 支持springMVC &ndash;&gt;-->
+            <!--<springmvc>true</springmvc>-->
+            <!--&lt;!&ndash; 你的web项目Controller包名 &ndash;&gt;-->
+            <!--<locations>com.framework.springmvc.controller</locations>-->
+            <!--&lt;!&ndash; 协议 &ndash;&gt;-->
+            <!--<schemes>http</schemes>-->
+            <!--&lt;!&ndash; 所在主机，可以为空 &ndash;&gt;-->
+            <!--<host>localhost:8080</host>-->
+            <!--&lt;!&ndash; web项目Context Path &ndash;&gt;-->
+            <!--<basePath>/doc-searcher-web</basePath>-->
+            <!--&lt;!&ndash; 必须！要在主页显示你的API的整体信息的，相当于是标题 &ndash;&gt;-->
+            <!--<info>-->
+            <!--<title>文档搜索器</title>-->
+            <!--<version>v1</version>-->
+            <!--<description>-->
+            <!--文档搜索器-API-->
+            <!--</description>-->
+            <!--</info>-->
+            <!--<swaggerDirectory>${basedir}/src/main/resources/generated/swagger-ui</swaggerDirectory>-->
+            <!--&lt;!&ndash;&lt;!&ndash; 模板位置，支持classpath:类型路径 &ndash;&gt; <templatePath>classpath:/template/markdown.hbs</templatePath>&ndash;&gt;-->
+            <!--&lt;!&ndash;&lt;!&ndash; 编译期扫描controller之后合成的API文档输出位置 &ndash;&gt; <outputPath>${project.basedir}/src/main/webapp/swagger-ui/document.md</outputPath>&ndash;&gt;-->
+            <!--&lt;!&ndash;&lt;!&ndash; web目录下的js、css等资源位置 &ndash;&gt; <swaggerDirectory>${project.basedir}/src/main/webapp/swagger-ui/</swaggerDirectory>&ndash;&gt;-->
+            <!--</apiSource>-->
+
+
+            <!--</apiSources>-->
+            <!--</configuration>-->
+            <!--&lt;!&ndash; 这里很重要，简单说就是配置在maven的compile生命周期执行时触发swagger插件的generate命令 &ndash;&gt;-->
+
+            <!--</plugin>-->
+
+
+            <plugin>
+                <groupId>com.github.kongchen</groupId>
+                <artifactId>swagger-maven-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <apiSources>
+                        <apiSource>
+                            <!-- 支持springMVC -->
+                            <springmvc>true</springmvc>
+                            <!-- 你的web项目Controller包名 -->
+                            <locations>com.framework.springmvc.controller</locations>
+                            <!--<locations>cn.coselding.docsearcher.web.controller</locations>-->
+                            <!-- 协议 -->
+                            <schemes>http</schemes>
+                            <!-- 所在主机，可以为空 -->
+                            <host>localhost:8080</host>
+                            <!-- web项目Context Path -->
+                            <basePath>/doc-searcher-web</basePath>
+                            <!-- 必须！要在主页显示你的API的整体信息的，相当于是标题 -->
+                            <info>
+                                <title>文档搜索器</title>
+                                <version>v1</version>
+                                <description>
+                                    文档搜索器-API
+                                </description>
+                            </info>
+                            <!--&lt;!&ndash; 模板位置，支持classpath:类型路径 &ndash;&gt; <templatePath>classpath:/template/markdown.hbs</templatePath>-->
+                            <!--&lt;!&ndash; 编译期扫描controller之后合成的API文档输出位置 &ndash;&gt; <outputPath>${project.basedir}/src/main/webapp/swagger-ui/document.md</outputPath>-->
+                            <!-- web目录下的js、css等资源位置 -->
+                            <swaggerDirectory>${project.basedir}/src/main/webapp/swagger-ui/</swaggerDirectory>
+                        </apiSource>
+                    </apiSources>
+                </configuration>
+                <!-- 这里很重要，简单说就是配置在maven的compile生命周期执行时触发swagger插件的generate命令 -->
+                <executions>
+                    <execution>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.mortbay.jetty</groupId>
+                <artifactId>jetty-maven-plugin</artifactId>
+                <version>8.1.8.v20121106</version>
+                <configuration>
+                    <stopKey>stop</stopKey>
+                    <stopPort>9999</stopPort>
+                    <scanIntervalSeconds>10000</scanIntervalSeconds>
+                    <!-- <contextXml>${project.basedir}/src/main/resources/jetty-context.xml</contextXml> -->
+                    <!-- <contextXml>${project.basedir}/src/main/resources/jetty-context.xml</contextXml> -->
+                    <webApp>
+                        <contextPath>/</contextPath>
+                    </webApp>
+                    <webAppConfig>
+                        <defaultsDescriptor>src/main/resources/webdefault.xml</defaultsDescriptor>
+                    </webAppConfig>
+                    <connectors>
+                        <connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
+                            <port>8080</port>
+                            <maxIdleTime>60000</maxIdleTime>
+                        </connector>
+                    </connectors>
+                </configuration>
+            </plugin>
+
+        </plugins>
+    </build>
+    <properties>
+
+        <!-- main version setting   3.2.3.RELEASE-->
+        <!--<spring.version>4.0.8.RELEASE</spring.version>-->
+        <spring.version>3.2.0</spring.version>
+
+    </properties>
+    <dependencies>
+
+        <dependency>
+            <groupId>org.openjdk.jol</groupId>
+            <artifactId>jol-core</artifactId>
+            <version>0.11</version>
+        </dependency>
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp</artifactId>
+            <version>3.9.0</version>
+        </dependency>
+        <!-- spring config -->
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.curator</groupId>
+            <artifactId>curator-framework</artifactId>
+            <version>2.10.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.curator</groupId>
+            <artifactId>curator-recipes</artifactId>
+            <version>2.10.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.shyiko</groupId>
+            <artifactId>mysql-binlog-connector-java</artifactId>
+            <version>0.16.1</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-cli</groupId>
+            <artifactId>commons-cli</artifactId>
+            <version>1.3</version>
+        </dependency>
+
+
+        <!--<dependency>-->
+        <!--<groupId>org.objectweb.asm</groupId>-->
+        <!--<artifactId>com.springsource.org.objectweb.asm</artifactId>-->
+        <!--<version>3.2.0</version>-->
+        <!--</dependency>-->
+
+        <dependency>
+
+            <groupId>org.ow2.asm</groupId>
+
+            <artifactId>asm</artifactId>
+
+            <version>4.2</version>
+
+        </dependency>
+
+        <dependency>
+            <groupId>com.rabbitmq</groupId>
+            <artifactId>amqp-client</artifactId>
+            <version>4.2.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid</artifactId>
+            <version>1.0.11</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-web</artifactId>
+            <version>1.2.4</version>
+        </dependency>
+
+        <!--<dependency>-->
+        <!--<groupId>org.aspectj</groupId>-->
+        <!--<artifactId>aspectjweaver</artifactId>-->
+        <!--<version>1.8.8</version>-->
+        <!--</dependency>-->
+
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging-api</artifactId>
+            <version>1.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.velocity</groupId>
+            <artifactId>velocity</artifactId>
+            <version>1.7</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.velocity</groupId>
+            <artifactId>velocity-tools</artifactId>
+            <version>2.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.simpleframework</groupId>
+            <artifactId>simple-xml</artifactId>
+            <version>2.7.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>3.17</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>4.1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aop</artifactId>
+            <version>${spring.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>net.logstash.logback</groupId>
+            <artifactId>logstash-logback-encoder</artifactId>
+            <version>4.10</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <!--<dependency>-->
+        <!--<groupId>org.springframework</groupId>-->
+        <!--<artifactId>spring-test</artifactId>-->
+        <!--<version>RELEASE</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+        <!--<groupId>org.springframework</groupId>-->
+        <!--<artifactId>spring-test</artifactId>-->
+        <!--<version>RELEASE</version>-->
+        <!--</dependency>-->
+
+        <!--spring end -->
+        <dependency>
+            <groupId>net.sf.dozer</groupId>
+            <artifactId>dozer</artifactId>
+            <version>5.5.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.ecyrd.speed4j</groupId>
+            <artifactId>speed4j</artifactId>
+            <version>0.12</version>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.11</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-core</artifactId>
+            <version>1.3.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-web</artifactId>
+            <version>1.3.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-ehcache</artifactId>
+            <version>1.4.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-cas</artifactId>
+            <version>1.4.0</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>servlet-api</artifactId>
+                    <groupId>javax.servlet</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>cas-client-core</artifactId>
+                    <groupId>org.jasig.cas.client</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.zookeeper</groupId>
+            <artifactId>zookeeper</artifactId>
+            <version>3.4.9</version>
+
+        </dependency>
+
+        <!--        <dependency>-->
+
+        <!--            <groupId>com.github.sgroschupf</groupId>-->
+
+        <!--            <artifactId>zkclient</artifactId>-->
+        <!--&lt;!&ndash;                <version></version>&ndash;&gt;-->
+        <!--        </dependency >-->
+
+
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>2.44.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.opera</groupId>
+            <artifactId>operadriver</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.5</version>
+        </dependency>
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>2.44.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>opensymphony</groupId>
+            <artifactId>sitemesh</artifactId>
+            <version>2.4.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.rocketmq</groupId>
+            <artifactId>rocketmq-client</artifactId>
+            <version>4.2.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.netflix.hystrix</groupId>
+            <artifactId>hystrix-core</artifactId>
+            <version>1.5.8</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.2.3</version>
+        </dependency>
+        <!--<dependency>-->
+        <!--<groupId>org.slf4j</groupId>-->
+        <!--<artifactId>slf4j-log4j12</artifactId>-->
+        <!--<version>1.7.5</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+        <!--<groupId>log4j</groupId>-->
+        <!--<artifactId>log4j</artifactId>-->
+        <!--<version>1.2.17</version>-->
+        <!--</dependency>-->
+
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.69</version>
+        </dependency>
+        <!--        <dependency>-->
+        <!--            <groupId>com.cheyipai.servitization</groupId>-->
+        <!--            <artifactId>servitization-proxy</artifactId>-->
+        <!--            <version>1.1</version>-->
+        <!--            <exclusions>-->
+        <!--                <exclusion>-->
+        <!--                    <groupId>com.cheyipai.commons</groupId>-->
+        <!--                    <artifactId>commons-util</artifactId>-->
+        <!--                </exclusion>-->
+        <!--                <exclusion>-->
+        <!--                    <groupId>com.cheyipai.commons</groupId>-->
+        <!--                    <artifactId>commons-log</artifactId>-->
+        <!--                </exclusion>-->
+
+        <!--                <exclusion>-->
+        <!--                    <groupId>com.cheyipai.commons.socket</groupId>-->
+        <!--                    <artifactId>emcf</artifactId>-->
+        <!--                </exclusion>-->
+
+        <!--                <exclusion>-->
+        <!--                    <groupId>com.cheyipai.commons.socket</groupId>-->
+        <!--                    <artifactId>spring-emcf</artifactId>-->
+        <!--                </exclusion>-->
+
+        <!--            </exclusions>-->
+        <!--        </dependency>-->
+
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.40</version>
+        </dependency>
+        <!--<dependency>-->
+        <!--<groupId>junit</groupId>-->
+        <!--<artifactId>junit</artifactId>-->
+        <!--<version>RELEASE</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+        <!--<groupId>junit</groupId>-->
+        <!--<artifactId>junit</artifactId>-->
+        <!--<version>RELEASE</version>-->
+        <!--</dependency>-->
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis</artifactId>
+            <version>3.4.6</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+            <version>2.9.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis-spring</artifactId>
+            <version>1.3.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.yaml</groupId>
+            <artifactId>snakeyaml</artifactId>
+            <version>1.14</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>4.3.8.RELEASE</version>
+        </dependency>
+
+        <!--- spring mvc 项目引入swagger -->
+        <!--https://blog.csdn.net/qq_34624315/article/details/82757856-->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>2.7.0</version>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>2.7.0</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>io.swagger</groupId>
+            <artifactId>swagger-core</artifactId>
+            <version>1.5.16</version>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>RELEASE</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-all</artifactId>
+            <version>4.0.3.Final</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjtools</artifactId>
+            <version>1.9.1</version>
+        </dependency>
+    </dependencies>
+
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.opera</groupId>
+                <artifactId>operadriver</artifactId>
+                <version>0.16</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.seleniumhq.selenium</groupId>
+                        <artifactId>selenium-remote-driver</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>com.google.guava</groupId>
+                        <artifactId>guava</artifactId>
+                    </exclusion>
+                </exclusions>
+
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+</project>

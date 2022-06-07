@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="MY">
+	<resultMap id="BaseResultMap" type="User">
+		<id column="id" property="id" javaType="Integer" jdbcType="INTEGER" />
+		<result column="username" property="username" jdbcType="VARCHAR"
+			javaType="string" />
+		<result column="password" property="password" jdbcType="VARCHAR"
+			javaType="string" />
+		<result column="age" property="age" jdbcType="INTEGER"
+			javaType="int" />
+		<result column="status" property="status" jdbcType="INTEGER"
+			javaType="int" />
+		<result column="create_time" property="createTime" jdbcType="INTEGER"
+			javaType="int" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		id, username, password, status, create_time,age
+	</sql>
+
+	<select id="selectById" resultMap="BaseResultMap" parameterType="int">
+		SELECT
+		<include refid="Base_Column_List" />
+		from user_test
+		<where>
+			<if test="id!=null">
+				id=#{id,jdbcType=INTEGER}
+			</if>
+		</where>
+		order by create_time desc
+	</select>
+	
+	
+	<select id="selectUserByUserName" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		from user_test
+		<where>
+			<if test="username!=null">
+				username=#{username,jdbcType=VARCHAR}
+			</if>
+		</where>
+	</select>
+	
+
+	<insert id="insert" parameterType="User">
+		<selectKey resultType="java.lang.Integer" order="AFTER"
+			keyProperty="id">
+			SELECT LAST_INSERT_ID() AS id
+		</selectKey>
+		insert into user
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="username != null and username!=''">
+				username,
+			</if>
+			<if test="password != null and password!=''">
+				password,
+			</if>
+			<if test="age != null">
+				age,
+			</if>
+			<if test="createTime != null">
+				create_time,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+			<if test="version!= null">
+				version,
+			</if>
+				version1,
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="username != null and username!=''">
+				#{username,jdbcType=VARCHAR},
+			</if>
+			<if test="password != null and password!=''">
+				#{password,jdbcType=VARCHAR},
+			</if>
+			<if test="age != null and age!=''">
+				#{age,jdbcType=INTEGER},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=INTEGER},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=INTEGER},
+			</if>
+				#{version1}
+		</trim>
+	</insert>
+
+
+	<insert id="insertUser" parameterType="User">
+		<selectKey resultType="java.lang.Integer" order="AFTER"
+			keyProperty="id">
+			SELECT LAST_INSERT_ID() AS id
+		</selectKey>
+		insert into user_test
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="username != null and username!=''">
+				username,
+			</if>
+			<if test="password != null and password!=''">
+				password,
+			</if>
+			<if test="age != null">
+				age,
+			</if>
+			<if test="createTime != null">
+				create_time,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="username != null and username!=''">
+				#{username,jdbcType=VARCHAR},
+			</if>
+			<if test="password != null and password!=''">
+				#{password,jdbcType=VARCHAR},
+			</if>
+			<if test="age != null and age!=''">
+				#{age,jdbcType=INTEGER},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=INTEGER},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=INTEGER},
+			</if>
+
+		</trim>
+	</insert>
+
+
+	<!-- 批量插入 -->
+	<insert id="insertBatch" parameterType="java.util.List">
+		insert into user_test(username, password,age,create_time,status) values
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(
+			<choose>
+				<when test="item.username != null and item.username!=''">
+					#{item.username,jdbcType=VARCHAR},
+				</when>
+				<otherwise>null,</otherwise>
+			</choose>
+			<choose>
+				<when test="item.password != null and item.password!=''">
+					#{item.password,jdbcType=VARCHAR},
+				</when>
+				<otherwise>null,</otherwise>
+			</choose>
+			<choose>
+				<when test="item.age != null">
+					#{item.age,jdbcType=INTEGER},
+				</when>
+				<otherwise>null,</otherwise>
+			</choose>
+			 UNIX_TIMESTAMP(),
+			<choose>
+				<when test="item.status != null">
+					#{item.status,jdbcType=INTEGER}
+				</when>
+				<otherwise>null</otherwise>
+			</choose>
+			)
+		</foreach>
+	</insert>
+
+	<insert id="saveBatch" parameterType="java.util.List"  keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+		insert into user_test(username, password,age,create_time,status) values
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(
+			<choose>
+				<when test="item.username != null and item.username!=''">
+					#{item.username,jdbcType=VARCHAR},
+				</when>
+				<otherwise>null,</otherwise>
+			</choose>
+			<choose>
+				<when test="item.password != null and item.password!=''">
+					#{item.password,jdbcType=VARCHAR},
+				</when>
+				<otherwise>null,</otherwise>
+			</choose>
+			<choose>
+				<when test="item.age != null">
+					#{item.age,jdbcType=INTEGER},
+				</when>
+				<otherwise>null,</otherwise>
+			</choose>
+			UNIX_TIMESTAMP(),
+			<choose>
+				<when test="item.status != null">
+					#{item.status,jdbcType=INTEGER}
+				</when>
+				<otherwise>null</otherwise>
+			</choose>
+			)
+		</foreach>
+	</insert>
+
+	<update id="update" parameterType="User">
+		update user_test
+		<set>
+			<if test="username != null and username!=''">
+				username = #{username,jdbcType=VARCHAR},
+			</if>
+			<if test="password != null and password!=''">
+				password = #{password,jdbcType=VARCHAR},
+			</if>
+			<if test="age != null and age!=''">
+				age = #{age,jdbcType=INTEGER},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=INTEGER},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+
+
+
+	<delete id="deleteById" parameterType="int">
+		delete from user_test where id=#{id,jdbcType=INTEGER}
+	</delete>
+</mapper>

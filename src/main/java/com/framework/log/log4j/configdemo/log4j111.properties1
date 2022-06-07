@@ -1,0 +1,55 @@
+############################################################
+#log4j 记录                                                                                                                                        #
+#1.promotion包日志记录器                                                                                                           # 
+#2.promotion/core日志记录器                                                                                                 #
+#3.promotion/impl日期记录器                                                                                                 #
+############################################################
+log4j.logger=INFO,CONSOLE
+log4j.logger.com.msds.platformservice.promotionplatform.promotion=INFO,CONSOLE,PRMTPACK
+log4j.logger.com.msds.platformservice.promotionplatform.promotion.core=INFO,CONSOLE,RELOADPRMT
+log4j.additivity.com.msds.platformservice.promotionplatform.promotion.core=false
+log4j.logger.com.msds.platformservice.promotionplatform.serviceapi.impl=INFO,CONSOLE,EXCUTEPRMT
+log4j.additivity.com.msds.platformservice.promotionplatform.serviceapi.impl=false
+log4j.logger.com.msds.platformservice.promotionplatform.passport.service.impl=INFO,CONSOLE,SYNO2ODATA
+
+log4j.appender.CONSOLE=org.apache.log4j.ConsoleAppender 
+log4j.appender.CONSOLE.Threshold=INFO
+log4j.appender.CONSOLE.Target=System.out 
+log4j.appender.CONSOLE.layout=org.apache.log4j.PatternLayout 
+log4j.appender.CONSOLE.layout.ConversionPattern=%d{yyyy-MM-dd HH:mm:ss} %-5p %-5l -%m%n
+
+#reload promotion info
+log4j.appender.RELOADPRMT=org.apache.log4j.DailyRollingFileAppender
+log4j.appender.RELOADPRMT.File=/app/logs/prmtlog/reloadprmt.log
+log4j.appender.RELOADPRMT.DatePattern='.'yyyy-MM-dd
+log4j.appender.RELOADPRMT.layout=org.apache.log4j.PatternLayout
+log4j.appender.RELOADPRMT.layout.ConversionPattern= %d{yyyy-MM-dd HH:mm:ss} %-5p %-5l -%m%n
+
+#excute promotion info
+log4j.appender.EXCUTEPRMT=org.apache.log4j.DailyRollingFileAppender
+log4j.appender.EXCUTEPRMT.File=/app/logs/prmtlog/excuteprmt.log
+log4j.appender.EXCUTEPRMT.DatePattern='.'yyyy-MM-dd
+log4j.appender.EXCUTEPRMT.layout=org.apache.log4j.PatternLayout
+log4j.appender.EXCUTEPRMT.layout.ConversionPattern= %d{yyyy-MM-dd HH:mm:ss} %-5p %F:%L %m%n
+
+#excute promotion info
+log4j.appender.PRMTPACK=org.apache.log4j.DailyRollingFileAppender
+log4j.appender.PRMTPACK.File=/app/logs/prmtlog/promotion.log
+log4j.appender.PRMTPACK.DatePattern='.'yyyy-MM-dd
+log4j.appender.PRMTPACK.layout=org.apache.log4j.PatternLayout
+log4j.appender.PRMTPACK.layout.ConversionPattern= %d{yyyy-MM-dd HH:mm:ss} %-5p %F:%L %m%n
+
+#synchronization o2o store and area table
+log4j.appender.SYNO2ODATA=org.apache.log4j.FileAppender
+log4j.appender.SYNO2ODATA.File=/app/logs/sosalog/synosa.log
+log4j.appender.SYNO2ODATA.layout=org.apache.log4j.PatternLayout
+log4j.appender.SYNO2ODATA.layout.ConversionPattern= %d{yyyy-MM-dd HH:mm:ss} %-5p %F:%L %m%n
+#############################test-test-test-test-test-test-testtest###################
+log4j.appender.CONSOLE1=org.apache.log4j.ConsoleAppender 
+log4j.appender.CONSOLE1.Threshold=INFO
+log4j.appender.CONSOLE1.Target=System.out
+log4j.appender.CONSOLE1.layout=org.apache.log4j.PatternLayout 
+log4j.appender.CONSOLE1.layout.ConversionPattern=%d{yyyy-MM-dd HH:mm:ss} %-5p %F:%L %n%m%n
+log4j.logger.com.jiamingku.test=INFO,CONSOLE1
+log4j.logger.com.jiamingku.test.LogTest=INFO,CONSOLE1
+log4j.additivity.com.jiamingku.test.LogTest=false

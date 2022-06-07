@@ -1,0 +1,5 @@
+datasources:
+   yh_resource:
+      servers:
+        - 192.168.102.219:3306
+        - 192.168.102.219:3306

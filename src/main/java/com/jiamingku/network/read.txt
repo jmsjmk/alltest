@@ -1,0 +1,18 @@
+-- socket 读取数据时候读取不到就阻塞，读取-1就关闭，异常关闭就抛出异常.
+==============
+https://blog.csdn.net/semillon/article/details/7515926
+
+-- 读时候发生异常-soTime参数设置
+java.net.SocketTimeoutException: Read timed out
+
+-- socket 连接使用connect方法(客户端)
+java.net.SocketTimeoutException: connect timed out
+
+-- Server端发送数据，客户端突然关闭-服务端异常
+java.net.SocketException: Broken pipe (Write failed)
+
+-- socket关闭了之后-你在读就会出现这个错误.
+java.net.SocketException: Socket closed
+
+-- socket异常-read方法在读取时候,如果对面异常关闭socket了。读取的就抛出异常（不区分服务端-客户端一样的处理)
+java.net.SocketException: Connection reset

@@ -1,0 +1,49 @@
+datasources:
+  yh_resource:
+    servers:
+      - 192.168.102.219:3306
+      - 192.168.102.219:3306
+    username: yh_test
+    password: 9nm0icOwt6bMHjMusIfMLw==
+    maxConnections: 40
+    cobar: true
+    clusterName: front
+
+  yh_shops:
+    servers:
+      - 192.168.102.219:3306
+      - 192.168.102.219:3306
+    username: yh_test
+    password: 9nm0icOwt6bMHjMusIfMLw==
+    cobar: true
+    clusterName: platform
+    daos:
+      - com.yoho.platform.dal.resources.IBrandDao
+
+  yhb_promotion:
+    username: yh_test
+    password: 9nm0icOwt6bMHjMusIfMLw==
+    cobar: true
+    daos:
+      - com.yoho.platform.dal.resources.ICouponTypeMapper
+
+  cobar:
+    servers:
+      - 192.168.102.219:3306
+      - 192.168.102.219:3306
+    username: yh_test
+    password: 9nm0icOwt6bMHjMusIfMLw==
+    daos:
+      - com.yoho.platform.dal.resources.CobarDao
+
+#   yh_shopping_cart:
+#       servers:
+#         - 192.168.102.219:3306
+#         - 192.168.102.219:3306
+#       username: yh_test
+#       password: 9nm0icOwt6bMHjMusIfMLw==
+#       cobar: false
+#       daos:
+#         - com.yoho.platform.dal.resources.ShoppingCardDao
+
+readOnlyInSlave: false
