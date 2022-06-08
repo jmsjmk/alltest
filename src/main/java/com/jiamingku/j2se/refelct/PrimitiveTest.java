@@ -60,6 +60,7 @@ public class PrimitiveTest {
         System.out.println(int.class.getName());
         System.out.println(Integer.TYPE.getName());
         System.out.println(Integer.class.getName());
+        System.out.println(Integer.class.getSimpleName());
     }
 
     @Test
