@@ -64,6 +64,7 @@ public class FieldTest {
         /**
          * 通过名字获取字段::::
          */
+
         try {
             Type t = sonClass.getField("t").getGenericType();
             System.out.println(t.getTypeName());
