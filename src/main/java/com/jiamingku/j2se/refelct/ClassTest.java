@@ -31,14 +31,11 @@ public class ClassTest {
     public static void main(String[] args) {
         Class<ClassTest> classTestClass = ClassTest.class;
         System.out.println("classTestClass = " + classTestClass);
-        System.out.println(" === ");
+        System.out.println("classTestClass.getTypeName() = " + classTestClass.getTypeName());
+        System.out.println("classTestClass.getName() = " + classTestClass.getName());
+        System.out.println("classTestClass.getSimpleName() = " + classTestClass.getSimpleName());
 
-
-        String typeName = classTestClass.getTypeName();
-        System.out.println("typeName = " + typeName);
-        String name = classTestClass.getName();
-        System.out.println("name = " + name);
-
+        System.out.println("---------------------------------------------------" );
 
         Constructor<?>[] declaredConstructors = classTestClass.getDeclaredConstructors();
         for (Constructor<?> declaredConstructor : declaredConstructors) {

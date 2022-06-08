@@ -33,6 +33,11 @@ public class Son<T, OO> extends Parent {
     public T t;
     public OO o;
 
+    public Son(T t, OO o) {
+        this.t = t;
+        this.o = o;
+    }
+
     /* 方法-----------*/
     public static void staticMethod() {
     }

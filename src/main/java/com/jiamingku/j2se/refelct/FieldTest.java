@@ -34,6 +34,11 @@ public class FieldTest {
             String name = f.getName();
             Class<?> type = f.getType();
             System.out.println("f.getName() :" + name + "  f.getType():=" + type);
+
+            Type genericType = f.getGenericType();
+            System.out.println("f.getGenericType() = " + genericType     + "    \t\t\t" +  genericType.getClass().getSimpleName());
+
+            System.out.println("-----------------");
         }
     }
 

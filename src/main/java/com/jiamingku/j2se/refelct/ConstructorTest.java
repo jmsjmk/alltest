@@ -1,12 +1,23 @@
 package com.jiamingku.j2se.refelct;
 
 import com.jiamingku.j2se.refelct.bo.Son;
+import com.jiamingku.j2se.refelct.bo.Son2;
 import org.junit.Test;
+import sun.reflect.generics.reflectiveObjects.TypeVariableImpl;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Type;
+import java.lang.reflect.*;
 
-
+/**
+ *  + "\n, c.getGenericParameterTypes().length:" + c.getGenericParameterTypes().length
+ *
+ *                     + "\n, c.getTypeParameters().length:" + c.getTypeParameters().length
+ *
+ *                     + "\n, c.getParameters().length:" + c.getParameters().length
+ *
+ *                     + "\n, c.getParameterTypes().length:" + c.getParameterTypes().lengt
+ *
+ *                     下面的这几个方法没整明白
+ */
 public class ConstructorTest {
     /**
      * 构造器: 构造器是没有继承的
@@ -56,9 +67,15 @@ public class ConstructorTest {
         try {
             Class<Son> sonClass = Son.class;
             Son son = sonClass.newInstance();
+            /**
+             * 传递null, 与不传递效果是一样的.
+             */
             Constructor constructor = sonClass.getConstructor(null);
             System.out.println(constructor.getName() + "    ======   " + constructor.getTypeParameters().length);
+            Constructor<Son> constructor1 = sonClass.getConstructor();
+            System.out.println(constructor1.getName() + "    ======   " + constructor1.getTypeParameters().length);
 
+            // -------------------------------------------------------
             Object o1 = constructor.newInstance();
             System.out.println(o1.getClass());
             Constructor<Son> stringClass = sonClass.getDeclaredConstructor(String.class);
@@ -85,17 +102,15 @@ public class ConstructorTest {
         for (Constructor c : cons) {
             System.out.println(c.getName() + ", 参数数量:" + c.getGenericParameterTypes().length);
         }
-        System.out.println("==");
-
-        for (Constructor c : cons) {
-            System.out.println(c.getName() + ", 参数数量:" + c.getParameterTypes().length);
-        }
 
         System.out.println("==");
         Constructor[] ccc = sonClass.getDeclaredConstructors();
 
         for (Constructor c : ccc) {
-            System.out.println(c.getName() + ", 参数数量:" + c.getGenericParameterTypes().length);
+
+            System.out.println(c.getName()
+                    + ",  c.getGenericParameterTypes().length:" + c.getGenericParameterTypes().length
+                    + ",  c.getTypeParameters().length:" + c.getTypeParameters().length);
         }
     }
 
@@ -104,23 +119,73 @@ public class ConstructorTest {
      */
     @Test
     public void testGetDeclaredConstructors() {
-        Class sonClass = Son.class;
+        Class sonClass = Son2.class;
         Constructor[] cons = sonClass.getDeclaredConstructors();
         for (Constructor c : cons) {
-            System.out.println(c.getName() + ", 参数数量:" + c.getGenericParameterTypes().length);
+            System.out.println(c.getName()
+                    + "\n, c.getGenericParameterTypes().length:" + c.getGenericParameterTypes().length
+
+                    + "\n, c.getTypeParameters().length:" + c.getTypeParameters().length
+
+                    + "\n, c.getParameters().length:" + c.getParameters().length
+
+                    + "\n, c.getParameterTypes().length:" + c.getParameterTypes().length
+
+
+            );
+
+            // -------------------------------------------
+             Parameter[] parameters = c.getParameters();
+
+            Type[] genericParameterTypes = c.getGenericParameterTypes();
+
+            TypeVariable[] typeParameters = c.getTypeParameters();
+            System.out.println("typeParameters = " + typeParameters.length + "------------------fuck 0");
+            Class[] parameterTypes = c.getParameterTypes();
+
+
+            // ----------------------------------------------------------------
+
+
+            for (Parameter parameter : c.getParameters()) {
+                System.out.println("parameter = " + parameter);
+                System.out.println("parameter = " + parameter.getType());
+            }
+
             Type[] types = c.getGenericParameterTypes();
-            System.out.println(" ddddddddddddddddddddddddd  " + types.getClass().getSimpleName());
-            System.out.println(" ddddddddddddddddddddddddd  " + types.getClass());
             for (Type t : types) {
+                System.out.println("t = " + t.getClass());
                 System.out.println(t.getTypeName());
+            }
+            System.out.println("-----------------------------------");
+            System.out.println();
+
+
+            for (TypeVariable typeParameter : c.getTypeParameters()) {
+                System.out.println("typeParameter = " + typeParameter);
+            }
+
+            Son2 son1 = new Son2<String, String> ("1","1");
+
+            for (Constructor<?> constructor : son1.getClass().getConstructors()) {
+                for (Class<?> parameterType : constructor.getParameterTypes()) {
+                    System.out.println("parameterType = " + parameterType);
+                }
+            }
+
+            for (Constructor<?> constructor : son1.getClass().getConstructors()) {
+                for (Type parameterType : constructor.getGenericParameterTypes()) {
+                    System.out.println("parameterType = " + parameterType);
+                    System.out.println("parameterType = " + parameterType.getTypeName());
+                    TypeVariableImpl typeVariable = (TypeVariableImpl) parameterType;
+                    String name = typeVariable.getName();
+                    System.out.println("name = " + name);
+                    GenericDeclaration genericDeclaration = typeVariable.getGenericDeclaration();
+                    System.out.println("genericDeclaration = " + genericDeclaration);
+                }
             }
         }
     }
 
-    @Test
-    public void test111() {
-        String[] strs = new String[3];
-        System.out.println(strs.getClass().getSimpleName());
-        System.out.println(strs.getClass());
-    }
+
 }

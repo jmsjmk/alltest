@@ -15,6 +15,13 @@ import java.util.List;
  */
 public class ArrayTest {
 
+    @Test
+    public void test111() {
+        String[] strs = new String[3];
+        System.out.println(strs.getClass().getSimpleName());
+        System.out.println(strs.getClass());
+    }
+
     public String string = "100";
 
     public static void main(String[] args) {
