@@ -15,10 +15,10 @@ import java.util.List;
  */
 public class ArrayTest {
 
+    public String string = "100";
+
     public static void main(String[] args) {
-
     }
-
 
     /**
      * 说明:Integer.TYPE = int.class;
@@ -63,17 +63,19 @@ public class ArrayTest {
     public void test2() {
         try {
             System.out.println(int.class);
+
+            // ----整型数组可以通过这个方式进行获取.
             Class c1 = Class.forName("[I");
             System.out.println(c1);
             int[] a = {1};
             System.out.println(a.getClass());
 
             int[][] aa = (int[][]) Array.newInstance(c1, 2);
-            System.out.println(aa.length);
+            System.out.println(aa.length + " class:" + aa.getClass() + "      classSimpleName:" + aa.getClass().getSimpleName());
             Arrays.stream(aa).forEach(System.out::println);
             // Class c2 = Class.forName("int");
             int[] aaaaa = (int[]) Array.newInstance(int.class, 10);
-            System.out.println(aaaaa.length);
+            System.out.println(aaaaa.length + " class:" + aaaaa.getClass() + "       simpleName:" + aaaaa.getClass().getSimpleName());
             Arrays.stream(aaaaa).forEach(System.out::println);
         } catch (Exception e) {
             e.printStackTrace();
@@ -118,12 +120,28 @@ public class ArrayTest {
     public void testdddd() {
         try {
             Type type = ArrayTest.class.getField("a").getGenericType();
-            System.out.println("type = " + type);
+            if (type instanceof ParameterizedType) {
+                System.out.println(" IS ParameterizedType  = " + type);
+            } else {
+                System.out.println(" IS not ParameterizedType  = " + type);
+            }
+
+            Class<?> a = ArrayTest.class.getField("a").getType();
+
+
+            Type string = ArrayTest.class.getField("string").getGenericType();
+
+            if (string instanceof Class) {
+                System.out.println("is class = " + string);
+            } else {
+                System.out.println("is not class");
+            }
+
+
             typeToClass(type);
         } catch (NoSuchFieldException e) {
             e.printStackTrace();
         }
-
     }
 
     private Class<?> typeToClass(Type src) {
@@ -150,5 +168,4 @@ public class ArrayTest {
         }
         return result;
     }
-
 }
