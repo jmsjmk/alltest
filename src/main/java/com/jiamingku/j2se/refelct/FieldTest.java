@@ -30,7 +30,9 @@ public class FieldTest {
     public void test21() {
         Class c = Son.class;
         Field[] fileds = c.getDeclaredFields();
+        System.out.println("对比：type ，getGenericType 两种类型的区别, 更高级的抽象....begin.");
         for (Field f : fileds) {
+            System.out.println("");
             String name = f.getName();
             Class<?> type = f.getType();
             System.out.println("f.getName() :" + name + "  f.getType():=" + type);
@@ -43,7 +45,7 @@ public class FieldTest {
     }
 
     /**
-     * 1.getFields获取本类或者父类的属性-访问权限可以的(也就是反问权限可以的)
+     * 1.getFields获取本类或者父类的属性-访问权限可以的(也就是反问权限可以的, 只能是public的.)
      * 2.getDeclaredFields获取本类的所有属性
      */
     @Test
@@ -74,10 +76,14 @@ public class FieldTest {
         } catch (NoSuchFieldException e) {
             e.printStackTrace();
         }
+        System.out.println();
+        System.out.println();
+        System.out.println();
+        System.out.println();
+
 
         // -------------本类中应该有的属性
         Field[] fields1 = sonClass.getDeclaredFields();
-        System.out.println("");
         System.out.println("[getDeclaredFields,方法执行开始.... 获取字段长度:]" + fields1.length);
         for (Field f : fields1) {
             String typeName = f.getType().getName();
@@ -90,11 +96,12 @@ public class FieldTest {
             }
 
             Class ccc = f.getDeclaringClass();
-            System.out.println("-----所在类的信息-----" + ccc);
+            System.out.println("----所在类的信息-----" + ccc);
+
+            Type genericType = f.getGenericType();
+            System.out.println("genericType = " + genericType);
             System.out.println("==");
         }
     }
 
-    public static void main(String[] args) {
-    }
 }

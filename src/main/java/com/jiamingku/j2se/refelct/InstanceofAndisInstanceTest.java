@@ -31,7 +31,6 @@ public class InstanceofAndisInstanceTest {
 
         Class o = null;
         boolean assignableFrom = o.isAssignableFrom(Map.class);
-
         System.out.println("assignableFrom = " + assignableFrom);
     }
 

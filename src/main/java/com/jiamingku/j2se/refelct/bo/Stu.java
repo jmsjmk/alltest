@@ -1,8 +1,16 @@
 package com.jiamingku.j2se.refelct.bo;
 
+import org.springframework.stereotype.Service;
+
 import java.io.Serializable;
 @SuppressWarnings("ALL")
-public class Stu extends Peo implements Serializable {
+@Service
+public class Stu extends Peo implements Serializable , Comparable{
+    @Override
+    public int compareTo(Object o) {
+        return 0;
+    }
+
     private String sname;
     private String sage;
 

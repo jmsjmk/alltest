@@ -103,7 +103,6 @@ public class GetClass {
             Class<Integer> integerClass = int.class;
             System.out.println(integerClass.toString());
 
-
             Class<Integer> integerClass1 = Integer.class;
             System.out.println(integerClass1.toString());
 
@@ -158,7 +157,7 @@ public class GetClass {
             Class c = Class.forName(path);
             // 1.
             String packageName = c.getPackage().getName();
-            System.out.println(packageName);
+            System.out.println("package:   " + packageName);
 
             // 2.
             String className = c.getName();
@@ -193,11 +192,20 @@ public class GetClass {
         try {
             Class cson = Stu.class;
             Annotation[] annotations = cson.getAnnotations();
+            System.out.println("annotations.length() = " + annotations.length);
+            Arrays.stream(annotations).forEach(System.out::println);
+
+            System.out.println(" = ");
+            System.out.println(" = ");
+            System.out.println(" = ");
 
             /**
              * 获取接口信息
              */
             AnnotatedType[] annotatedType = cson.getAnnotatedInterfaces();
+
+
+            System.out.println("annotatedType.length = " + annotatedType.length);
             for (AnnotatedType annotatedType1 : annotatedType) {
                 System.out.println(annotatedType1.getType().getTypeName());
             }
@@ -243,5 +251,4 @@ public class GetClass {
         }
         System.out.println(sb.toString());
     }
-
 }
