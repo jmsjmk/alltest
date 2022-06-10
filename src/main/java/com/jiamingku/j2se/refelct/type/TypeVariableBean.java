@@ -50,20 +50,22 @@ public class TypeVariableBean<K extends InputStream & Closeable, V> {
             Field fk = TypeVariableBean.class.getDeclaredField("key");
             /* TypeVariable代表着泛型中的变量，而ParameterizedType则代表整个泛型；*/
             TypeVariable keyType = (TypeVariable) fk.getGenericType();
-            System.out.println("fk.getGenericType.getName():" + keyType.getName());
-            System.out.println("fk.getGenericType.getGenericDeclaration():" + keyType.getGenericDeclaration());
+            System.out.println("keyType.getName():" + keyType.getName());
+            System.out.println("keyType.getGenericDeclaration():" + keyType.getGenericDeclaration());
             String s2 = fk.getType().toString();
             System.out.println("s2 = " + s2);
             System.out.println("-----------------------");
 
             // 通过实例进行获取::::::-----------------------------------------------------------------------------------------------------------
             // 也就是说你指定了--具体的类型--在获取的时候就----运行时才能
-            fk = bean1.getClass().getDeclaredField("key");
+            fk = bean1.getClass().getDeclaredField("bean1");
             /* TypeVariable代表着泛型中的变量，而ParameterizedType则代表整个泛型；*/
-            TypeVariable keyType1 = (TypeVariable) fk.getGenericType();
-            System.out.println("fk.getGenericType.getName():" + keyType1.getName() + "  ");
-            System.out.println("fk.getGenericType.getGenericDeclaration():" + keyType1.getGenericDeclaration());
-
+            Type key = fk.getGenericType();
+            if (key instanceof ParameterizedType) {
+                System.out.println(" ======== ");
+                ParameterizedType p = (ParameterizedType) key;
+                System.out.println(p);
+            }
         } catch (NoSuchFieldException e) {
             e.printStackTrace();
         }
@@ -85,21 +87,24 @@ public class TypeVariableBean<K extends InputStream & Closeable, V> {
             TypeVariable keyType = (TypeVariable) fk.getGenericType();
             System.out.println("fk.getGenericType.getName():" + keyType.getName());
             System.out.println("fk.getGenericType.getGenericDeclaration():" + keyType.getGenericDeclaration());
+
+            // ----这个给按照绑定的上线-返回Class对象
             String s2 = fk.getType().toString();
-            System.out.println("s2 = " + s2);
+            System.out.println("s1 ===== " + s2);
+
+            // ----这个按照
+            String s = fk.getGenericType().toString();
+            System.out.println("s1 ===== " + s);
+
             System.out.println("-----------------------");
 
             // 通过实例进行获取::::::-----------------------------------------------------------------------------------------------------------
             // 也就是说你指定了--具体的类型--在获取的时候就----运行时才能
             fk = bean1.getClass().getDeclaredField("bean1");
-            String s = fk.getGenericType().toString();
-            System.out.println("ddd-----" + s);
             ParameterizedType keyType1 = (ParameterizedType) fk.getGenericType();
-
-            String s1 = keyType.getGenericDeclaration().toString();
-            System.out.println(s1);
+            System.out.println("keyType1 = " + keyType1);
             for (TypeVariable<?> typeParameter : keyType.getGenericDeclaration().getTypeParameters()) {
-                System.out.println("&&");
+                System.out.println("&&--查看绑定的每一层参数----");
                 System.out.println(typeParameter.getName());
                 System.out.println(typeParameter.getTypeName());
             }
@@ -109,5 +114,30 @@ public class TypeVariableBean<K extends InputStream & Closeable, V> {
     }
 
 
+    /**
+     * 在方法内定义的变量--代泛型的--能取出来。但是我不会，spring可以获取到.
+     * <p>
+     * 就是运行期方法内的 一般都是获取不到的，但是想类， 局部变量 在编译的时候可能留下了一些标记 你可以获取到.
+     */
+    @Test
+    public void base3() {
+        try {
+            /** 方法内定义的几乎是获取不到的 ---这种是获取不到的*/
+            TypeVariableBean<FileInputStream, String> bean = new TypeVariableBean<FileInputStream, String>();
+
+            // -----
+            Type genericSuperclass = SonTest.class.getGenericSuperclass();
+            System.out.println("genericSuperclass = " + genericSuperclass);
+            System.out.println("genericSuperclass.getClass().getSimpleName() = " + genericSuperclass.getClass().getSimpleName());
+
+            // --- 不存在
+            Type[] genericInterfaces = SonTest.class.getGenericInterfaces();
+            for (Type t : genericInterfaces) {
+                System.out.println("t = " + t);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
 
