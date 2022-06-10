@@ -22,7 +22,7 @@ public class Son<T, OO> extends Parent {
         return publicString;
     }
 
-    public void setPublicString(String publicString) {
+    public void setPublicString(String publicStringKKKKKK) {
         System.out.println(" =sdfsdfsfsdf-sdfds************** " );
         this.publicString = publicString;
     }

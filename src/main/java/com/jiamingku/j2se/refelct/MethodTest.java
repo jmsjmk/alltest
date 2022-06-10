@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.springframework.core.LocalVariableTableParameterNameDiscoverer;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.AnnotatedType;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.lang.reflect.Type;
@@ -31,7 +32,7 @@ import java.util.Objects;
  */
 public class MethodTest {
     /**
-     * 构造器是也是方法，但是区别对待这两个方法
+     * 构造器是也是方法---********但是区别对待这两个方法, 不会获取到构造器方法.
      * <p>
      * 访问修饰符用一个数字表示
      */
@@ -50,36 +51,8 @@ public class MethodTest {
     }
 
     /**
-     * https://www.cnblogs.com/kancy/p/10205036.html
-     *
-     * javac -parameters
-     *
+     * 获取自定的所有方法. 包括私有方法.
      */
-    @Test
-    public void getMethodName() {
-
-        try {
-            Class<Son> sonClass = Son.class;
-
-            Method setPublicString = sonClass.getMethod("setPublicString", String.class);
-
-            Parameter[] parameters = setPublicString.getParameters();
-
-            for (Parameter parameter : parameters) {
-                String name = parameter.getName();
-                System.out.println("name = " + name);
-            }
-
-
-
-
-
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        }
-
-
-    }
     @Test
     public void testGetDeclaredMethod() {
         Class<Son> clazz = Son.class;
@@ -87,20 +60,30 @@ public class MethodTest {
         p(declaredMethods, "clazz.getDeclaredMethods()", 3);
     }
 
+
+    // ------------------------------------------------------------------------------------------------------------
+
+    /**
+     * 获取方法的变量名字.
+     * <p>
+     * https://www.cnblogs.com/kancy/p/10205036.html
+     * javac -parameters
+     */
     @Test
-    public void testGetMethodAnnotation() {
-        Class<Son> clazz = Son.class;
-        Method[] declaredMethods = clazz.getDeclaredMethods();
-        for (Method m : declaredMethods) {
-            if (Objects.equals(m.getName(), "setIds")) {
-                Annotation[] annotations = m.getAnnotations();
-                for (Annotation a : annotations) {
-                    System.out.println(a);
-                }
+    public void getMethodName() {
+        try {
+            Class<Son> sonClass = Son.class;
+            Method setPublicString = sonClass.getMethod("setPublicString", String.class);
+            Parameter[] parameters = setPublicString.getParameters();
+            for (Parameter parameter : parameters) {
+                String name = parameter.getName();
+                System.out.println("name = " + name);
             }
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
         }
     }
-    // ------------------------------------------------------------------------------------------------------------
+
 
     /**
      * 参数的名字:
@@ -129,6 +112,24 @@ public class MethodTest {
         }
     }
 
+    // ---------------------------------------------------------------------------------------------------------------------------
+
+    /**
+     * 获取所有的注解.
+     */
+    @Test
+    public void testGetMethodAnnotation() {
+        Class<Son> clazz = Son.class;
+        Method[] declaredMethods = clazz.getDeclaredMethods();
+        for (Method m : declaredMethods) {
+            if (Objects.equals(m.getName(), "setIds")) {
+                Annotation[] annotations = m.getAnnotations();
+                for (Annotation a : annotations) {
+                    System.out.println(a);
+                }
+            }
+        }
+    }
 
     /**
      * 参数的注解
@@ -141,18 +142,16 @@ public class MethodTest {
             if (m.getName().equals("setIds")) {
                 Parameter[] parameters = m.getParameters();
                 for (Parameter p : parameters) {
-                    System.out.println(p.getType());
-                    System.out.println(p.getParameterizedType());
+                    System.out.println(p.getType() + "\t\t\t\t\t\t\t" + p.getParameterizedType());
                     // ----------------参数的注解信息----------------------
                     Annotation[] annotations = p.getAnnotations();
                     for (Annotation a : annotations) {
-                        System.out.print("--___ a.getClass() = " + a.getClass() + "------");
-                        System.out.print("a.annotationType() = " + a.annotationType() + "------");
-                        System.out.println("a.toString() = " + a.toString());
+                        System.out.println("\ta.getClass() = " + a.getClass() + "------");
+                        System.out.println("\ta.annotationType() = " + a.annotationType() + "------");
+                        System.out.println("\ta.toString() = " + a.toString());
                         if (a instanceof Th) {
-                            System.out.println(((Th) a).a());
                             Th ta = (Th) a;
-                            System.out.println(ta.toString());
+                            System.out.println(ta.toString() + "\t获取a的值:" + ((Th) a).a());
                             System.out.println("===");
                         }
                     }
@@ -160,6 +159,8 @@ public class MethodTest {
             }
         }
     }
+
+    // -----------------------------------------------------------------------------------------------------------------
 
     /**
      * 1.方法级别可以获取到泛型参数,参数parameter是获取不到的
@@ -171,14 +172,32 @@ public class MethodTest {
         Method[] methods = Son.class.getMethods();
         for (Method m : methods) {
             if (m.getName().equals("setIds")) {
-                Type[] types = m.getGenericParameterTypes();
-                for (Type t : types) {
-                    System.out.println(t + "=======" + t.getTypeName());
-                }
+
+
                 Class[] classes = m.getParameterTypes();
                 for (Class c : classes) {
                     System.out.println(c.getSimpleName());
                 }
+
+                Type[] genericParameterTypes = m.getGenericParameterTypes();
+                for (Type t: genericParameterTypes) {
+                    System.out.println(t + "=======" + t.getTypeName() + "    " + t.getClass().getSimpleName());
+                }
+
+                System.out.println();
+                System.out.println();
+                System.out.println();
+                Parameter[] parameters = m.getParameters();
+                for (Parameter p: parameters) {
+                    System.out.println(p + "==========" + p.getName());
+                    Class<?> type = p.getType();
+                    System.out.println("type = " + type);
+                    AnnotatedType annotatedType = p.getAnnotatedType();
+                    System.out.println("annotatedType = " + annotatedType.getType());
+                    System.out.println("annotatedType = " + annotatedType.getType().getClass().getSimpleName());
+                }
+
+
             }
         }
     }
@@ -220,7 +239,10 @@ public class MethodTest {
         System.out.println(s);
     }
 
-
+    // ---------------------------------------------------------------------------------------------------------------------
+    // ---------------------------------Use---------------------------------------------------------------------------------
+    // ---------------------------------Use---------------------------------------------------------------------------------
+    // ---------------------------------Use---------------------------------------------------------------------------------
     @Test
     public void testExcuteMethod() {
         try {
@@ -279,8 +301,6 @@ public class MethodTest {
     }
 
 
-
-
     // ------------------------------------------------------------------------------------------------------------
 
 
@@ -289,21 +309,13 @@ public class MethodTest {
         try {
             Method[] method = Son.class.getDeclaredMethods();
             for (Method m : method) {
-
                 Type returnType = m.getGenericReturnType();
-
                 System.out.println("returnType = " + returnType + " name:  " + m.getName());
-
-
                 Class<?> declaringClass = m.getDeclaringClass();
                 System.out.println("declaringClass = " + declaringClass);
-
-
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
-
 }
