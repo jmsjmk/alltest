@@ -23,16 +23,17 @@ public class WildcardTypeBean {
         for (int i = 0; i < fields.length; i++) {
             Field field = fields[i];
             Type type = field.getGenericType();
-            String nameString = field.getName();
-            PrintUtils.print("处理属性:::: field.getName() " + field.getName() + " 类型:" + field.getGenericType().getClass().getSimpleName());
+            System.out.println("注意以上的类型都是:ParameterizedTypeImpl类型.!!!!!!!!~~~~\n");
+            PrintUtils.print("字段名字: " + field.getName()
+                    + "\n类   型:" + field.getGenericType().getClass().getSimpleName());
 
             ParameterizedType parameterizedType = (ParameterizedType) type;
-            System.out.println("获取参数数组:::");
+            System.out.println("获取参数数组:::getActualTypeArguments::::::::");
             Type[] actualTypeArguments = parameterizedType.getActualTypeArguments();
-            for (Type t: actualTypeArguments) {
+            for (Type t : actualTypeArguments) {
                 System.out.println("t.getTypeName()   = " + t.getTypeName() + "      t.Class:" + t.getClass().getSimpleName());
                 if (t instanceof WildcardType) {
-                    PrintUtils.printTypeArr((WildcardType)t);
+                    PrintUtils.printTypeArr((WildcardType) t);
                 }
             }
         }
@@ -43,14 +44,7 @@ public class WildcardTypeBean {
         try {
 
             System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
-            System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
-            System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
-            System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
-            System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
-            System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
-//            private List<? extends Number> a;  // a没有下界,
-//            //  没有指定的话，上边界默认是 Object ,下边界是  String
-//            private List<? super String> b;
+
             Field fieldA = WildcardTypeBean.class.getDeclaredField("a");
             Field fieldB = WildcardTypeBean.class.getDeclaredField("b");
             // 先拿到范型类型
@@ -61,6 +55,8 @@ public class WildcardTypeBean {
             // 再从范型里拿到通配符类型
             PrintUtils.print(pTypeA.getActualTypeArguments()[0] instanceof WildcardType); // true
             PrintUtils.print(pTypeB.getActualTypeArguments()[0] instanceof WildcardType); // true
+
+            System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
             WildcardType wTypeA = (WildcardType) pTypeA.getActualTypeArguments()[0];
             WildcardType wTypeB = (WildcardType) pTypeB.getActualTypeArguments()[0];
             // 方法测试

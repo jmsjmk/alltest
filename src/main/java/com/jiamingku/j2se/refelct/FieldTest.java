@@ -1,5 +1,6 @@
 package com.jiamingku.j2se.refelct;
 
+import com.google.common.base.Objects;
 import com.jiamingku.j2se.refelct.bo.Son;
 import com.jiamingku.j2se.refelct.property.PropertyDescriptorTest;
 import org.junit.Test;
@@ -26,6 +27,33 @@ public class FieldTest {
     private String x = "100";
     private Object o = new Integer(112);
 
+    @Override
+    public String toString() {
+        return Objects.toStringHelper(this)
+                .add("x", x)
+                .add("o", o)
+                .toString();
+    }
+
+    /**
+     * 基本的使用
+     */
+    @Test
+    public void test0() {
+        try {
+            FieldTest fieldTest = new FieldTest();
+            System.out.println("fieldTest = " + fieldTest);
+            Field o = FieldTest.class.getDeclaredField("o");
+            o.setAccessible(true);
+            o.set(fieldTest, 1111111);
+            System.out.println("fieldTest = " + fieldTest);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
     @Test
     public void test21() {
         Class c = Son.class;
@@ -38,7 +66,7 @@ public class FieldTest {
             System.out.println("f.getName() :" + name + "  f.getType():=" + type);
 
             Type genericType = f.getGenericType();
-            System.out.println("f.getGenericType() = " + genericType     + "    \t\t\t" +  genericType.getClass().getSimpleName());
+            System.out.println("f.getGenericType() = " + genericType + "    \t\t\t" + genericType.getClass().getSimpleName());
 
             System.out.println("-----------------");
         }

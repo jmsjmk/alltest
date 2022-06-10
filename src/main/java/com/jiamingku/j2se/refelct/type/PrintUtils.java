@@ -41,7 +41,7 @@ public class PrintUtils {
             System.out.println(lowerType.toString());
         }
 
-        System.out.println("下限长度:" + upperBounds.length );
+        System.out.println("上限长度:" + upperBounds.length );
         for (Type lowerType : upperBounds) {
             System.out.println(lowerType.toString());
         }
