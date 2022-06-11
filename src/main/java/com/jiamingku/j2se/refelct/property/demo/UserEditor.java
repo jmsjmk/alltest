@@ -5,6 +5,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
  
 /**
+ * java自带的属性编辑器; PropertyEditor---继承 PropertyEditorSupport可以方便的上线属性继承
+ *
  * 编辑器
  */
 public class UserEditor extends PropertyEditorSupport {
@@ -13,6 +15,10 @@ public class UserEditor extends PropertyEditorSupport {
  
    /**
     * 重写从一个字符串String变成bean的方法
+    *
+    * 1.传递过来一个字符串
+    * 2.构建一个使用的对象,设置对应的属性
+    * 3.将新构建的这个对象,筛入属性编辑器中.
     */
    @Override
    public void setAsText(String text) throws IllegalArgumentException{
@@ -26,6 +32,7 @@ public class UserEditor extends PropertyEditorSupport {
       }catch(ParseException e){
          throw new IllegalArgumentException(e);
       }
+      // --这个地方将属性值设置进入.----后面在使用的时候会相应的对应上
       setValue(user);
    }
 }
