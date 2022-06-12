@@ -15,15 +15,15 @@ public class PropertyEditorSample {
 
     /**
      * 进行转换
-     *
      */
     public static Node convert(Map<String, String> parameters) throws Exception {
         //注册bean的编辑器,放到一个WeakHashMap中
         // --------------注册这个是非常重要的方法- 这个东西是下面:
         // --------------这个就是设置属性编辑器--简单的说就是User这个class属性,我门在编辑的时候用UserEditor.class属性编辑器.
+        // ---对应步骤:PropertyEditorManager.findEditor(pd.getPropertyType());
         PropertyEditorManager.registerEditor(User.class, UserEditor.class);
 
-        // 创建一个返回的独享--也就是返回结果---------------------------
+        // 创建一个返回的对象--也就是返回结果---------------------------
         Node node = new Node();
 
         BeanInfo bi = Introspector.getBeanInfo(Node.class);
@@ -39,6 +39,7 @@ public class PropertyEditorSample {
             } else {
                 //根据类型查找bean的编辑器,获取到了UserEditor的实例
                 // ------------------找到编辑器-------------------------------------
+                // ---对应上面的塞入属性编辑器.
                 PropertyEditor editor = PropertyEditorManager.findEditor(pd.getPropertyType());
                 if (editor != null) {
                     // --------------------调用编辑器------并将值设置到属性编辑器中。

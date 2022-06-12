@@ -251,14 +251,10 @@ public class MethodTest {
             Object r = method.invoke(s, "hhhh");
             System.out.println("r = " + r);
 
-
             Method method1 = Son.class.getMethod("publicMethod");
             Object r1 = method1.invoke(s);
 
-
             System.out.println("r = " + r1);
-
-
         } catch (Exception e) {
             e.printStackTrace();
         }
