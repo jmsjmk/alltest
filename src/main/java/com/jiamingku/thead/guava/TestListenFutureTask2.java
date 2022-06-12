@@ -1,7 +1,6 @@
 package com.jiamingku.thead.guava;
 
 import com.google.common.util.concurrent.*;
-import com.sun.istack.internal.Nullable;
 
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -36,7 +35,7 @@ public class TestListenFutureTask2 {
         // futures.get();
         Futures.addCallback(futures, new FutureCallback<List<Object>>() {
             @Override
-            public void onSuccess(@Nullable List<Object> result) {
+            public void onSuccess( List<Object> result) {
                 System.out.println(result);
             }
 

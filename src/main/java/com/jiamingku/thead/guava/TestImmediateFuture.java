@@ -1,7 +1,6 @@
 package com.jiamingku.thead.guava;
 
 import com.google.common.util.concurrent.*;
-import com.sun.istack.internal.Nullable;
 
 import java.util.List;
 import java.util.concurrent.Executors;
@@ -27,7 +26,7 @@ public class TestImmediateFuture {
         // FutureCallback接口包含onSuccess()、onFailure()两个方法
         Futures.addCallback(listenableFuture, new FutureCallback<Object>() {
             @Override
-            public void onSuccess(@Nullable Object result) {
+            public void onSuccess( Object result) {
                 System.out.println("res: " + result + " ThreadId=" + Thread.currentThread().getId());
             }
 

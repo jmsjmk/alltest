@@ -181,8 +181,7 @@
     <properties>
 
         <!-- main version setting   3.2.3.RELEASE-->
-        <!--<spring.version>4.0.8.RELEASE</spring.version>-->
-        <spring.version>3.2.0</spring.version>
+        <spring.version>4.2.4.RELEASE</spring.version>
 
     </properties>
     <dependencies>
@@ -318,6 +317,27 @@
             <artifactId>spring-web</artifactId>
             <version>${spring.version}</version>
         </dependency>
+
+            <dependency>
+                <groupId>org.apache.geronimo.specs</groupId>
+                <artifactId>geronimo-servlet_2.4_spec</artifactId>
+                <version>1.1.1</version>
+                <scope>provided</scope>
+            </dependency>
+
+
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-impl</artifactId>
+            <version>2.2.11</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+            <version>13.0</version>
+        </dependency>
+
 
         <dependency>
             <groupId>org.springframework</groupId>

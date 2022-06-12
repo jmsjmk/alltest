@@ -65,9 +65,9 @@ public class GetClassloaderTest {
             URLClassLoader classLoader = new URLClassLoader(new URL[]{url});
             System.out.println("classLoader.getParent() = " + classLoader.getParent());
             Class c = classLoader.loadClass("com.test.Test");
-            com.test.Test t = (com.test.Test) c.newInstance();
-            System.out.println("t.getClass() = " + t.getClass());
-            System.out.println("c.getClassLoader() = " + c.getClassLoader());
+//            com.test.Test t = (com.test.Test) c.newInstance();
+//            System.out.println("t.getClass() = " + t.getClass());
+//            System.out.println("c.getClassLoader() = " + c.getClassLoader());
         } catch (Exception e) {
             e.printStackTrace();
         }
